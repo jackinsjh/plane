@@ -1,16 +1,21 @@
 function addEnvironment(noisefn) {
+    // This is the base class for most objects in three.js
+    // and provides a set of properties and methods for manipulating objects in 3D space.
     environment = new THREE.Object3D();
 
     // lights TODO: calculate terrain lighting only once
+    // parameter: color, intensity
     scene.add(new THREE.AmbientLight(0xffffff, 0.8));
 
     renderer.shadowMap.enabled = true;
     renderer.shadowMapSoft = true;
 
+    // light on
+    // parameter: color, intensity
     light = new THREE.DirectionalLight(0xffffff, 0.98);
-    light.position.set(0, 550, 0);
+    light.position.set(0, 550, 0);  // starting position of the light
     light.position.multiplyScalar(1.3);
-    light.target = plane;
+    light.target = plane;  // target position of the light
     light.castShadow = config.world.shadows;
 
     // shadow resolution
@@ -37,11 +42,12 @@ function addEnvironment(noisefn) {
     water.rotation.set(-toRad(90), 0, 0);
 
     water.receiveShadow = true;
-    geometry.verticesNeedUpdate = true;
+    geometry.verticesNeedUpdate = true;  // true if the vertices array has been updated
     geometry.computeVertexNormals();
+    // https://gamedev.stackexchange.com/questions/93031/three-js-lighting-not-calculating-correctly-on-three-geometry-objects
     environment.add(water);
 
-    // fog
+    // fog -> like fog, the plane is painted with the desigated color if the plane is far.
     scene.fog = new THREE.Fog(0x64c0ff, 10, config.world.viewDistance * 0.6);
     renderer.setClearColor(scene.fog.color, 1);
 
@@ -49,19 +55,21 @@ function addEnvironment(noisefn) {
     let treePositions = [];
     var material = new THREE.MeshStandardMaterial({
         roughness: 0.83,
-        vertexColors: THREE.VertexColors,
+        vertexColors: THREE.VertexColors,  // color for each vertex
     });
 
     // heightfieldMatrix where the heights will be saved for the cannonjs heightfield
     heightfieldMatrix = [];
     var matrixRow = [];
 
+    // parameters: width,height, widthSegments, heightSegments
     var geometry = new THREE.PlaneGeometry(config.world.worldSize, config.world.worldSize, config.world.worldSize / config.world.meshSlices, config.world.worldSize / config.world.meshSlices);
     const heightScale = config.world.worldSize / 80;
     let maxHeight = 0;
 
     updateLoading(35, "Generating terrain height with perlin noise");
 
+    // perlin noise -> random variable, but more natural one
     // terrain height with 5 layers of perlin noise
     for (let i = 0; i < geometry.vertices.length; i++) {
         let v = geometry.vertices[i];
@@ -111,6 +119,7 @@ function addEnvironment(noisefn) {
             maxHeight = v.z;
         }
 
+        // definition of === in javascript: comparison without type change
         // adding elements to heightfield
         if (i % config.world.slices === 0) {
             matrixRow.push(200 + v.z);
@@ -166,13 +175,14 @@ function addEnvironment(noisefn) {
                 l = 40 + 60 * ((vertexHeight - 0.3) * 2);
             }
 
+            // (반올림)
             s = Math.round(s);
             l = Math.round(l);
             f.vertexColors[j] = new THREE.Color("hsl(" + h + "," + s + "%," + l + "%)");
         }
     }
 
-    geometry.verticesNeedUpdate = true;
+    geometry.verticesNeedUpdate = true;  // vertices have been updated
     geometry.computeVertexNormals();
 
     var terrain = new THREE.Mesh(geometry, material);
@@ -190,7 +200,7 @@ function addEnvironment(noisefn) {
         elementSize: config.world.slices * config.world.meshSlices
     });
 
-    var hfBody = new CANNON.Body({
+    var hfBody = new CANNON.Body({  // base class for all body types
         mass: 0
     });
     hfBody.addShape(hfShape);
@@ -229,6 +239,7 @@ function addEnvironment(noisefn) {
     treemesh.castShadow = true;
     treemesh.receiveShadow = true;
 
+    // rectangular cube geometry
     const trunkgeometry = new THREE.BoxGeometry(0.06, 0.06, 0.6);
     const trunkmaterial = new THREE.MeshStandardMaterial({color: 0xff7a58, roughness: 0.8});
     const trunkmesh = new THREE.Mesh(trunkgeometry, trunkmaterial);
