@@ -12,28 +12,33 @@ function addPlane(camera, callback) {
     colladaLoader.options.convertUpAxis = true;
     colladaLoader.options.upAxis = "Y";
 
-    colladaLoader.load("https://raw.githubusercontent.com/jorgen5/test-repo/master/plane.dae", obj => {
+    // My new model: kite 
+    // Need "web-security" configured on the classroom's computer or loading this model won't work.
+    colladaLoader.load("https://raw.githubusercontent.com/rpt5366/Myproject/master/kite_17.dae", obj => {
+
         var colladaPlane = obj.scene;
         colladaPlane.name = "Plane";
         colladaPlane.quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI);
 
-        colladaPlane.getObjectByName("propeller").rotation.set(Math.PI / 2, 0, 0);
+        // colladaPlane.getObjectByName("propeller").rotation.set(Math.PI / 2, 0, 0);
 
-        // adding the shadows
-        colladaPlane.getObjectByName("body").children[0].castShadow = true;
-        colladaPlane.getObjectByName("propeller").children[0].castShadow = true;
-        colladaPlane.getObjectByName("rudder").children[0].castShadow = true;
-        colladaPlane.getObjectByName("elevator_l").children[0].castShadow = true;
-        colladaPlane.getObjectByName("elevator_r").children[0].castShadow = true;
-        colladaPlane.getObjectByName("aileron_l").children[0].castShadow = true;
-        colladaPlane.getObjectByName("aileron_r").children[0].castShadow = true;
+        // // adding the shadows
+        // colladaPlane.getObjectByName("body").children[0].castShadow = true;
+        // colladaPlane.getObjectByName("propeller").children[0].castShadow = true;
+        // colladaPlane.getObjectByName("rudder").children[0].castShadow = true;
+        // colladaPlane.getObjectByName("elevator_l").children[0].castShadow = true;
+        // colladaPlane.getObjectByName("elevator_r").children[0].castShadow = true;
+        // colladaPlane.getObjectByName("aileron_l").children[0].castShadow = true;
+        // colladaPlane.getObjectByName("aileron_r").children[0].castShadow = true;
 
         plane = colladaPlane;
         scene.add(plane);
         
         // Camera
-        camera.position.set(0, 6, 15);
-        //camera.position.set(15, 6, -15); // camera for background shot
+        // camera.position.set(0, 6, 15);
+        // camera.position.set(15, 6, -15); // camera for background shot
+        camera.position.set(15, 15, 2); // camera for background shot
+
         camera.lookAt(colladaPlane.position);
         colladaPlane.add(camera);
 
@@ -109,32 +114,32 @@ function movePlane(dt) {
     physicsPlane.linearDamping = config.plane.linearDamping;
     physicsPlane.angularDamping = config.plane.angularDamping;
 
-    // Rotate the propeller
-    if (throttle !== 0) {
-        propellerspeed += throttle * 0.004;
-    } else if (propellerspeed > 0.02) {
-        propellerspeed -= 0.0005;
-    } else if (propellerspeed < -0.02) {
-        propellerspeed += 0.0005;
-    } else {
-        propellerspeed = 0;
-    }
-    if (propellerspeed > 0.3) {
-        propellerspeed = 0.3;
-    }
-    if (propellerspeed < -0.3) {
-        propellerspeed = -0.3;
-    }
-    plane.getObjectByName("propeller").rotation.y += propellerspeed;
+    // // Rotate the propeller
+    // if (throttle !== 0) {
+    //     propellerspeed += throttle * 0.004;
+    // } else if (propellerspeed > 0.02) {
+    //     propellerspeed -= 0.0005;
+    // } else if (propellerspeed < -0.02) {
+    //     propellerspeed += 0.0005;
+    // } else {
+    //     propellerspeed = 0;
+    // }
+    // if (propellerspeed > 0.3) {
+    //     propellerspeed = 0.3;
+    // }
+    // if (propellerspeed < -0.3) {
+    //     propellerspeed = -0.3;
+    // }
+    // plane.getObjectByName("propeller").rotation.y += propellerspeed;
 
-    // Rotate the ailerons
-    plane.getObjectByName("aileron_l").rotation.set(aileronPosition, 0, 0);
-    plane.getObjectByName("aileron_r").rotation.set(-aileronPosition, 0, 0);
+    // // Rotate the ailerons
+    // plane.getObjectByName("aileron_l").rotation.set(aileronPosition, 0, 0);
+    // plane.getObjectByName("aileron_r").rotation.set(-aileronPosition, 0, 0);
 
-    // Rotate the rudder
-    plane.getObjectByName("rudder").rotation.set(0, -rudderPosition / 1, 0);
+    // // Rotate the rudder
+    // plane.getObjectByName("rudder").rotation.set(0, -rudderPosition / 1, 0);
 
-    // Rotate the elevator
-    plane.getObjectByName("elevator_l").rotation.set(-elevatorPosition / 1, 0, 0);
-    plane.getObjectByName("elevator_r").rotation.set(-elevatorPosition / 1, 0, 0);
+    // // Rotate the elevator
+    // plane.getObjectByName("elevator_l").rotation.set(-elevatorPosition / 1, 0, 0);
+    // plane.getObjectByName("elevator_r").rotation.set(-elevatorPosition / 1, 0, 0);
 }
