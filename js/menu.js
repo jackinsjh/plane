@@ -1,0 +1,217 @@
+function onLoad() {              // 말 그대로 온로드 함수인 것 메인메뉴임 
+    gameState = gameStates.mainMenu;
+
+    document.body.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") {
+            if (gameState === gameStates.playing) {
+                document.getElementById("pauseMenu").classList.remove("hidden");
+                gameState = gameStates.paused;
+                hideDebugText();
+            } else if (gameState === gameStates.paused) {
+                document.getElementById("pauseMenu").classList.add("hidden");
+                document.getElementById("settingsMenu").classList.add("hidden");
+                gameState = gameStates.playing;
+                showDebugText()
+            }
+        }
+    });
+}
+ 
+function startClicked() {                                            // 스타트 게임하면 이 함수 호출 
+    const mainMenu = document.getElementById("mainMenu");
+    const loading = document.getElementById("loading");
+
+    // TODO: Loading screen doesn't show up while loadGame() is happening :(
+    loading.classList.remove("hidden");
+    mainMenu.classList.add("hidden");
+
+    loadGame();
+
+    showDebugText();
+}
+
+function resumeClicked() {                                       // esc 누르고 재개하기 누르면 호출하는 함수 
+    const pauseMenu = document.getElementById("pauseMenu");
+    pauseMenu.classList.add("hidden");
+
+    gameState = gameStates.playing;
+
+    showDebugText();
+}
+
+function showDebugText() {                      // 디버그 관련 관심없다리 
+    const debugText = document.getElementById("debugText");
+    debugText.classList.remove("hidden");
+
+    for (let id of Object.keys(config.debug)) {
+        let element = document.getElementById(id);
+
+        if (config.debug[id]) {
+            element.parentNode.classList.remove("hidden");
+        }
+    }
+}
+
+function hideDebugText() {                           // 디버그 관련 관심없다리 
+    const debugText = document.getElementById("debugText");
+    debugText.classList.add("hidden");
+
+    for (let id of Object.keys(config.debug)) {
+        let element = document.getElementById(id);
+        element.parentNode.classList.add("hidden");
+    }
+}
+
+function backToMainMenuClicked() {                                   // 메뉴로 돌아가는 함수 
+    const pauseMenu = document.getElementById("pauseMenu");
+    const mainMenu = document.getElementById("mainMenu");
+    
+    const myCanvasContainer = document.getElementById("myCanvasContainer");
+    const canvas = document.querySelector("canvas");
+    myCanvasContainer.removeChild(canvas);
+    myCanvasContainer.appendChild(document.createElement("canvas"));
+
+    pauseMenu.classList.add("hidden");
+    mainMenu.classList.remove("hidden");
+
+    gameState = gameStates.mainMenu;
+}
+
+function reloadClicked() {             
+    backToMainMenuClicked();
+    startClicked();
+}
+
+function settingsClicked() {                                    // 세팅 누르면 호출 함수 
+    const mainMenu = document.getElementById("mainMenu");
+    const pauseMenu = document.getElementById("pauseMenu");
+    const settingsMenu = document.getElementById("settingsMenu");
+
+    mainMenu.classList.add("hidden");
+    pauseMenu.classList.add("hidden");
+    settingsMenu.classList.remove("hidden");
+
+    loadSettings("config");
+}
+
+function loadSettings(properties) {                                          // 세팅을 로드한다              
+    const settingsButtons = document.getElementById("settingsButtons");
+    const settingsPath = document.getElementById("settingsPath");
+    const backButton = document.getElementById("backButton");
+
+    settingsButtons.innerHTML = "";
+    settingsPath.innerHTML = properties;
+
+    let settings = config;
+    let meta = metaconfig;
+    let path = properties.split(".");
+
+    path.shift();
+
+    for (let property of path) {
+        settings = settings[property];
+        meta = meta[property];
+    }
+
+    for (let key of Object.keys(settings)) {              // 뭔소리야 ㅅㅂ ㅜㅜ
+        if (settings[key].constructor.name === "Object") {
+            let button = document.createElement("button");
+
+            button.onclick = function() {
+                loadSettings(properties + "." + key);
+            };
+            button.innerHTML = key;
+            settingsButtons.appendChild(button);
+        } else {
+            let line = document.createElement("p");
+
+            let label = document.createElement("label");
+            label.htmlFor = key;
+            label.innerHTML = key + ": ";
+
+            let input = document.createElement("input");
+            input.id = key;
+
+            if (meta[key].type === "number") {
+                input.type = "number";
+                input.value = settings[key];
+
+                if (meta[key].step) {
+                    input.step = meta[key].step;
+                }
+                if (meta[key].min) {
+                    input.min = meta[key].min;
+                }
+                if (meta[key].max) {
+                    input.max = meta[key].max;
+                }
+            } else if (meta[key].type === "enum") {
+                input = document.createElement("select");
+                input.id = key;
+
+                for (let enumKey of Object.keys(meta[key].enumObject)) {
+                    let option = document.createElement("option");
+                    option.value = meta[key].enumObject[enumKey];
+                    option.innerHTML = enumKey;
+                    if (settings[key] === option.value) {
+                        option.selected = "selected";
+                    }
+                    input.appendChild(option);
+                }
+            } else if (meta[key].type === "boolean") {
+                input.type = "checkbox";
+                input.checked = settings[key];
+            } else if (meta[key].type === "text") {
+                input.value = settings[key];
+            }
+
+            input.oninput = function() {
+                if (input.type === "number") {
+                    settings[key] = Number(input.value);
+                } else if (input.type === "checkbox") {
+                    settings[key] = input.checked;
+                } else {
+                    settings[key] = input.value;
+                }
+            };
+
+            line.appendChild(label);
+            line.appendChild(input);
+            settingsButtons.appendChild(line);
+        }
+    }
+
+    backButton.onclick = function () {                       // 백 버툰 누르면 일어나는 일 
+        let path = properties.split(".");
+        path.pop();
+
+        if (path.length > 0) {
+            loadSettings(path.join("."));
+        } else {
+            if (gameState === gameStates.paused) {
+                document.getElementById("pauseMenu").classList.remove("hidden");
+            } else if (gameState === gameStates.mainMenu) {
+                document.getElementById("mainMenu").classList.remove("hidden");
+            }
+            document.getElementById("settingsMenu").classList.add("hidden");
+        }
+    }
+}
+
+
+function updateLoading(progress, message) {                     // 로딩 관련 함수 
+    console.log(progress, message);
+
+    const loaded = document.getElementById("loadedBox");
+    const loadingMessage = document.getElementById("loadingMessage");
+
+    if (progress >= 100) {
+        const loading = document.getElementById("loading");
+        loading.classList.add("hidden");
+        loaded.style.width = 0;
+        loadingMessage.innerText = "";
+    }
+
+    loaded.style.width = progress + "%";
+    loadingMessage.innerText = message;
+}
