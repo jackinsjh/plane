@@ -12,7 +12,7 @@ let은 재선언이 불가능함
 예 ) let 형섭 = 26
      let 형섭 = 299 -> 에러 
 */
-
+var audio = new Audio('background.ogg'); // BGM
 
 var renderer, scene, camera, listener;
 var lookAt = new THREE.Vector3(0.0, 0.0, 0.0);
@@ -134,6 +134,8 @@ function loadDone(callback) {                // 앙 로드 돈 띠
 }
 
 function draw() {                                // 드로우하는 부분임 
+
+    audio.play();  // BGM 재생시작
 
     let dt = clock.getDelta();
     world.step(dt);                          // 이거 없애면 비행기 못움직임 
