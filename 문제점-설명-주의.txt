@@ -1,0 +1,20 @@
+그래픽스 plane-and-simple
+
+<문제>
+1. 없음
+2. game-start -> 로딩할때 화면 너무 잘되있다
+3. 첫화면 비행기 장면 바꾸자.
+4. html파일 github주소 바꾸자
+5. 시간지나서 죽으면, 다시 game start해도 안된다
+
+<설명>
+1. ~ 순으로 loading 된다.
+2. shadow effect를 추가했다.
+3. water: planeGeometry 등을 사용하여 environment.add하
+는 식으로 했다.
+4. 섬의 중간은 높이가 높도록 설정했다. 
+5. 지형의 울퉁불퉁함: noise 함수로 z(높이)에 noise를 줘서 
+울퉁불퉁한 effect를 줬다.
+
+<주의>
+1. chrome web-security 설정해줘야된다 (chrome 깔려있는지 확인):websecurity

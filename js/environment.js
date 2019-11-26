@@ -5,14 +5,14 @@ function addEnvironment(noisefn) {
 
     // lights TODO: calculate terrain lighting only once
     // parameter: color, intensity
-    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    scene.add(new THREE.AmbientLight(0xfefefe, 0.8));
 
     renderer.shadowMap.enabled = true;
     renderer.shadowMapSoft = true;
 
     // light on
     // parameter: color, intensity
-    light = new THREE.DirectionalLight(0xffffff, 0.98);
+    light = new THREE.DirectionalLight(0xfefefe, 0.7);
     light.position.set(0, 550, 0);  // starting position of the light
     light.position.multiplyScalar(1.3);
     light.target = plane;  // target position of the light
