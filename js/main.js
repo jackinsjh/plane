@@ -1,4 +1,4 @@
-/*
+﻿/*
 GGC's note 
 */
 
@@ -48,7 +48,13 @@ var world_time=60;
 
 // 변수 선언 파트 끝 
 
-// 함수 파트 시작 
+// 함수 파트 시작
+
+function initialImageClicked() {
+    document.getElementById('initialImage').style.display = "none";
+    document.getElementById('myCanvasContainer').style.display = "block";
+}
+
  
 function loadGame() {        // 로드 게임 함수 기본 => loadOneLoader(0);  만약 0 대신 딴걸 넣으면 ? 로딩창에서 영원히 진행안됨 흑흑
 	loadOneLoader(0);
@@ -184,7 +190,6 @@ function draw() {                                // 드로우하는 부분임
     document.getElementById("elevatorPosition").innerHTML = round(elevatorPosition);
     document.getElementById("rudderPosition").innerHTML = round(rudderPosition);
     document.getElementById("throttle").innerHTML = round(throttle);
-
     resizeCanvasToDisplaySize();
     renderer.render(scene, camera);
 

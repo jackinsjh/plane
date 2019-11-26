@@ -1,5 +1,5 @@
 function getRing(isActive) {
-    var geometry = new THREE.TorusGeometry(20, 3, 16, 100);
+    var geometry = new THREE.TorusGeometry(20, 3, 16, 100);  // torus = 고리 모양 - 고리 모양 3D 모델링 만들기
     var material = new THREE.MeshBasicMaterial({ color: 0xffdf00 });
     var torus = new THREE.Mesh(geometry, material);
 
@@ -15,7 +15,7 @@ function getRing(isActive) {
         world.add(ringDetector);
     } else {
         material.transparent = true;
-        material.opacity = 0.3;
+        material.opacity = 0.3;  // opacity = 불투명도
     }
     return torus; 
 }
