@@ -1,7 +1,8 @@
 var throttle = 0;
 var score = 0;
 
-var aileronPosition = 0;
+
+var aileronPosition = 0; // used to rotate the plane (when rolling, change this to roll the plane left and right)
 var elevatorPosition = 0;
 var rudderPosition = 0;
 
@@ -82,7 +83,7 @@ function activateShading(mesh) {
     }
 }
 
-
+// dt : delta amount
 function movePlane(dt) {
     var accelerationImpulse = new CANNON.Vec3(0, 0, -throttle * config.plane.throttlePower * dt);
     accelerationImpulse = physicsPlane.quaternion.vmult(accelerationImpulse);

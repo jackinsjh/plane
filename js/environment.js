@@ -35,23 +35,24 @@ function addEnvironment(noisefn) {
 
     scene.add(light);
 
-    // water
+    // Position water first
     var geometry = new THREE.PlaneGeometry(config.world.viewDistance * 2, config.world.viewDistance * 2, 1);
     var material = new THREE.MeshStandardMaterial({color: 0x3490DC, roughness: 0.5});
     water = new THREE.Mesh(geometry, material);
-    water.rotation.set(-toRad(90), 0, 0);
+    water.rotation.set(-toRad(90), 0, 0); // to lay it down.
 
     water.receiveShadow = true;
     geometry.verticesNeedUpdate = true;  // true if the vertices array has been updated
-    geometry.computeVertexNormals();
+    geometry.computeVertexNormals(); // way of computing vertex normals
     // https://gamedev.stackexchange.com/questions/93031/three-js-lighting-not-calculating-correctly-on-three-geometry-objects
     environment.add(water);
 
     // fog -> like fog, the plane is painted with the desigated color if the plane is far.
+    // fog params:              color, near, far
     scene.fog = new THREE.Fog(0x64c0ff, 10, config.world.viewDistance * 0.6);
     renderer.setClearColor(scene.fog.color, 1);
 
-    // terrain TODO: noise texture; maybe different biomes, maybe more islands, treeinstance layer
+    // an array for storing tree positions
     let treePositions = [];
     var material = new THREE.MeshStandardMaterial({
         roughness: 0.83,
@@ -62,9 +63,10 @@ function addEnvironment(noisefn) {
     heightfieldMatrix = [];
     var matrixRow = [];
 
+    // Create terrain
     // parameters: width,height, widthSegments, heightSegments
     var geometry = new THREE.PlaneGeometry(config.world.worldSize, config.world.worldSize, config.world.worldSize / config.world.meshSlices, config.world.worldSize / config.world.meshSlices);
-    const heightScale = config.world.worldSize / 80;
+    const heightScale = config.world.worldSize / 80; // =25 (2000/80)
     let maxHeight = 0;
 
     updateLoading(35, "Generating terrain height with perlin noise");
@@ -72,6 +74,7 @@ function addEnvironment(noisefn) {
     // perlin noise -> random variable, but more natural one
     // terrain height with 5 layers of perlin noise
     for (let i = 0; i < geometry.vertices.length; i++) {
+        
         let v = geometry.vertices[i];
         let x = v.x * 0.42;
         let y = v.y * 0.42;

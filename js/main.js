@@ -29,10 +29,14 @@ var prevTrapTime;
 var propellerspeed = 0;
 var noisefn = noise.simplex2;
 
+console.log("noise:" + typeof noise + ", noise.simplex2:" + noise.simplex2)
+console.log("noise:" + noise + ", " + noisefn)
+
 var toLoad = 2;
 
 let gameState;
 
+// Loading order
 var loaders = [
 	loadWorld,
 	loadPlane,

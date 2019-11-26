@@ -198,8 +198,9 @@ function loadSettings(properties) {                                          // 
     }
 }
 
-
-function updateLoading(progress, message) {                     // 로딩 관련 함수 
+// Displays progress bar and text while loading the game
+function updateLoading(progress, message) {         
+            
     console.log(progress, message);
 
     const loaded = document.getElementById("loadedBox");

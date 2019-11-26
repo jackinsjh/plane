@@ -29,17 +29,14 @@ gameStates.paused는 3을 의미해오
 
 // Config object
 
-/*
-let과 const의 차이점은 변수의 변경 가능 여부이다.
-let은 변수에 변수의 재선언은 불가능하고 재할당이 가능하지만,const는 변수 재선언, 재할당 모두 불가능하다.
-*/
 let config = {
 
     // Plane
     plane: {
-        startPosX: 0,         // 시작하는 x좌표
-        startPosY: 100,       // 시작하는 y좌표
-        startPosZ: 800,      // 시작하는 z좌표
+        // start position
+        startPosX: 0,       
+        startPosY: 100,       
+        startPosZ: 800,   
 
         aileronPower: 100,    //이거 값을 낮추면 양옆 방향 조절이 안됨         
         elevatorPower: 100,  // 이거 낮추면 고도 조절이 안됨
@@ -50,21 +47,23 @@ let config = {
         angularDamping: 0,   // 기본값 : 0 , 이거 올리면 비행기가 시야에서 사라짐 
 
         // Keyboard controls
-        acceleration: 0.5, // How much throttle holding down W does (dynamic for controller with sticks) - 설명 해놓으심
-        maxAileronPosition: 0.8, // Aileron position limit for the keyboard (1.0 for controller) - 설명 해놓으심
-        aileronSpeed: 0.05, // How fast the aileron moves to the limit per tick if the key is held down - 앙 설명해놓았띠 
+        acceleration: 0.5, // How much holding down W does to forward-acceleration- 설명 해놓으심
+        maxAileronPosition: 0.8, // Aileron position limit for the keyboard
+
+        aileronSpeed: 0.05, // How fast the aileron moves to the limit per tick if the key is held down 
+         
         maxElevatorPosition: 0.8, // 기본값 0.8  이거 높이면 컨트롤할때 존나 어지러움 건드리지 않는게 좋을듯 
         elevatorSpeed: 0.05, // 고도 속도값
         maxRudderPosition: 0.8, // rudder(q,e)의 위치관련값 기본값 0.8 값 값을 올리면 q,e로 전환되는거 ㅈㄴ 빨라짐 
-        rudderSpeed: 0.05 // 앙 rudder 속도띠  , 기본값 : 0.05 올리면  q,e 작동이 부자연스러워짐 -> 건들지 말 것 
+        rudderSpeed: 0.05 // rotate the body left and right horizontally.
     },
 
-    // Controls 앙 컨트롤띠 
+    // Controls
     controls: {
-        // which controller type is currently being used (keyboard or gamepad)
+
         type: controllerType.keyboard,
 
-        // Keyboard control keys    - 앙 설명띠 
+        // Keyboard control keys
         keyboard: {
             aileronLeft: "left",
             aileronRight: "right",
@@ -249,24 +248,24 @@ const metaconfig = {
             }
         },
 
-        gamepad: {
-            aileronAxis: {
-                type: "number",
-                step: 1
-            },
-            elevatorAxis: {
-                type: "number",
-                step: 1
-            },
-            rudderAxis: {
-                type: "number",
-                step: 1
-            },
-            throttleAxis: {
-                type: "number",
-                step: 1
-            }
-        }
+        // gamepad: {
+        //     aileronAxis: {
+        //         type: "number",
+        //         step: 1
+        //     },
+        //     elevatorAxis: {
+        //         type: "number",
+        //         step: 1
+        //     },
+        //     rudderAxis: {
+        //         type: "number",
+        //         step: 1
+        //     },
+        //     throttleAxis: {
+        //         type: "number",
+        //         step: 1
+        //     }
+        // }
     },
 
     world: {
