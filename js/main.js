@@ -184,7 +184,7 @@ function draw() {                                // 드로우하는 부분임
     document.getElementById("elevatorPosition").innerHTML = round(elevatorPosition);
     document.getElementById("rudderPosition").innerHTML = round(rudderPosition);
     document.getElementById("throttle").innerHTML = round(throttle);
-
+ㄱ
     resizeCanvasToDisplaySize();
     renderer.render(scene, camera);
 
