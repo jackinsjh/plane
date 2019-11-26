@@ -35,10 +35,9 @@ function addPlane(camera, callback) {
         scene.add(plane);
         
         // Camera
-        // camera.position.set(0, 6, 15);
+        camera.position.set(0, 6, 15);
         // camera.position.set(15, 6, -15); // camera for background shot
-        camera.position.set(15, 15, 2); // camera for background shot
-
+        // camera.position.set(15, 15, 2); // camera for screen shot
         camera.lookAt(colladaPlane.position);
         colladaPlane.add(camera);
 
