@@ -8,10 +8,10 @@ GCC Note
 
 function parseControls() {
 
-    if (config.controls.type == controllerType.keyboard) {     // 아시다시피 controllerType.keyboard 값은 1인것
+    if (config.controls.type == controllerType.keyboard) {     // == 1 
         // Left and right change the aileron position
-        if (keyboard.pressed(config.controls.keyboard.aileronLeft)) {
-            aileronPosition = Math.min(                     // 수학을 활용해서 왼쪽 위치 조정함 , 바꾸면 ㅈ됨 
+        if (keyboard.pressed(config.controls.keyboard.aileronLeft)) { // 'q'
+            aileronPosition = Math.min(                
                 aileronPosition + config.plane.aileronSpeed,
                 config.plane.maxAileronPosition
             );
@@ -83,27 +83,28 @@ function parseControls() {
             throttle = 0;
         }
 
-    } else if (config.controls.type == controllerType.gamepad) {       // 게임패드 관련 사항 우리는 알 필요 없다 
+    } 
+    // else if (config.controls.type == controllerType.gamepad) {       // 게임패드 관련 사항 우리는 알 필요 없다 
 
 
 
-        var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
-        //console.log(gamepads);
+    //     var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+    //     //console.log(gamepads);
 
-        if (!gamepads || !gamepads[0]) {
-            alert("No gamepad found! Switching to keyboard mode.");
-            config.controls.type = controllerType.keyboard;
-        } else {
-            let gp = gamepads[0];
+    //     if (!gamepads || !gamepads[0]) {
+    //         alert("No gamepad found! Switching to keyboard mode.");
+    //         config.controls.type = controllerType.keyboard;
+    //     } else {
+    //         let gp = gamepads[0];
 
-            throttle = gp.axes[config.controls.gamepad.throttleAxis];
-            aileronPosition = -gp.axes[config.controls.gamepad.aileronAxis];
-            elevatorPosition = -gp.axes[config.controls.gamepad.elevatorAxis];
-            rudderPosition = -gp.axes[config.controls.gamepad.rudderAxis];
-        }
-    }
+    //         throttle = gp.axes[config.controls.gamepad.throttleAxis];
+    //         aileronPosition = -gp.axes[config.controls.gamepad.aileronAxis];
+    //         elevatorPosition = -gp.axes[config.controls.gamepad.elevatorAxis];
+    //         rudderPosition = -gp.axes[config.controls.gamepad.rudderAxis];
+    //     }
+    // }
 
-    // Space resets the plane position
+    // 'Space': resets the plane position
     if (keyboard.pressed(config.controls.keyboard.reset)) {
         physicsPlane.position.set(config.plane.startPosX, config.plane.startPosY, config.plane.startPosZ);
         physicsPlane.velocity.copy(new CANNON.Vec3(0, 0, 0));

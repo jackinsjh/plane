@@ -6,15 +6,8 @@ GGC 의 노트 필기
 // Enum class for controller types
 const controllerType = {
     keyboard: 1,
-    gamepad: 2
+    // gamepad: 2
 };
-/*
-
-설명하러왓서오
-controllerType.keyboard는 1을 의미하고
-controllerType.gamepad는 2를 의미함 
-
-*/
 
 
 // Enum class for game state
@@ -84,13 +77,13 @@ let config = {
             reset: "space"
         },
 
-        // Gamepad control axes       - 앙 기모띠 
-        gamepad: {
-            aileronAxis: 0,
-            elevatorAxis: 1,
-            rudderAxis: 4,
-            throttleAxis: 2
-        }
+        // // Gamepad control axes       - 앙 기모띠 
+        // gamepad: {
+        //     aileronAxis: 0,
+        //     elevatorAxis: 1,
+        //     rudderAxis: 4,
+        //     throttleAxis: 2
+        // }
     },
 
     // World  TODO: doesn't work with some values. fix or value guide
@@ -98,8 +91,8 @@ let config = {
         worldSize: 2000, // Side length of the square world  맵 크기 
         meshSlices: 10,                  // 기본값 10 값 올리면 맵이 병신됨
         slices: 1, // 기본값 1 , 값을 올리면 Coloring vertices by height 부분에서 멈춰버림
-        viewDistance: 1800,   // 기본값 1800 , 값 올리면 더 넓은 화면 , 난 full hd에서 즐긴다!
-        treeAmount: 0.1, // 0=min, 1=max     - 설명 완료 
+        viewDistance: 1800,   
+        treeAmount: 0.1, // 0=min, 1=max   
         cloudAmount: 7, // (2*cloudAmount)^2 clouds will be created 
         shadows: false,   // 기본값 : false , 절대 바꾸지 말것 바꾸면 렉 지리게 걸리면서 맵 터짐
         gravityConstant: -9.82, // 기본값 :-9.82 , 중력값인데 올리면 비행기가 우주로 올라감 
