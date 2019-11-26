@@ -35,11 +35,17 @@
 
     <body onload="onLoad()">
         <main>
-            <div id="myCanvasContainer">
+
+            <div id="initialImage">
+                <button onclick="initialImageClicked()"><img src="initialImage.png">
+                </button>
+            </div>
+
+            <div id="myCanvasContainer" style="display:none;">
                 <div class="menu" id="mainMenu">
                     <h1>Plane and Simple</h1>
                     <p>A simple 3D plane game made as a computer graphics project with Three.js and Cannon.js.</p>
-                    <p>Made by Andri Soone, Jorgen Juurik and Erik Martin Vetemaa.</p>
+                    <p>Made by ----------------------------------------.</p>
                     <p>Controls: w/s - throttle, q/e - yaw, left/right - roll, up/down - pitch, space - reset position</p>
                     <!--<a href="https://github.com/ndri/plane-and-simple">GitHub page</a>
                     <a href="https://courses.cs.ut.ee/2018/cg/fall/Main/Project-PlaneGame">Wiki page</a>-->
