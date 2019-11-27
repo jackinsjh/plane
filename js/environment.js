@@ -63,22 +63,33 @@ function addEnvironment(noisefn) {
     heightfieldMatrix = [];
     var matrixRow = [];
 
-    // Create terrain
-    // parameters: width,height, widthSegments, heightSegments
+
+    // parameters: width=2000 , height=2000 , widthSegments=200, heightSegments=200
+    // This produces a plane whose vertices are all z=0
     var geometry = new THREE.PlaneGeometry(config.world.worldSize, config.world.worldSize, config.world.worldSize / config.world.meshSlices, config.world.worldSize / config.world.meshSlices);
     const heightScale = config.world.worldSize / 80; // =25 (2000/80)
     let maxHeight = 0;
 
-    updateLoading(35, "Generating terrain height with perlin noise");
+    updateLoading(35, "Generating terrain height with noise");
 
-    // perlin noise -> random variable, but more natural one
+    for(let i=geometry.vertices.length-1; i>=(geometry.vertices.length-1-200); i--){
+        console.log("Terrain vertices: " + geometry.vertices[i].x + ", " + geometry.vertices[i].y + ", " + geometry.vertices[i].z);
+    }
+    console.log("Terrain vertices length:" + geometry.vertices)
+
+
+    // -1000 <= x <= 1000
+    // y = 1000 -> -1000
     // terrain height with 5 layers of perlin noise
     for (let i = 0; i < geometry.vertices.length; i++) {
-        
-        let v = geometry.vertices[i];
-        let x = v.x * 0.42;
-        let y = v.y * 0.42;
 
+        let v = geometry.vertices[i];
+        // let x = v.x * 0.42;
+        // let y = v.y * 0.42;
+        let x = v.x * 0.22;
+        let y = v.y * 0.32;
+
+        // we add values to z because it is initially zero.
         v.z += noisefn(x * 0.003, y * 0.002) * heightScale + 6;
         v.z += noisefn(x * 0.005, y * 0.005) * (heightScale / 2);
         v.z += noisefn(x * 0.010, y * 0.010) * (heightScale / 4);
@@ -86,26 +97,31 @@ function addEnvironment(noisefn) {
         v.z += noisefn(x * 0.1, y * 0.1) * 0.7;
         v.z *= 3;
 
+        if(i<=20){
+            console.log(i+" first added z value:" + v.z);
+        }
+        
+
         let xpow = Math.pow(v.x, 2);
         let ypow = Math.pow(v.y, 2);
-        let rpow = Math.pow(config.world.worldSize / 2, 2);
-        let rline = xpow + ypow;
+        let rpow = Math.pow(config.world.worldSize / 2, 2); // r^2 where r=l/(2.0)
+        let dist_sqr = xpow + ypow; // x^2 + y^2 
 
         // v.z = 100;
 
         // lower area outside of island circle
-        if (rline / rpow > 1) {
+        if (dist_sqr  > rpow ) {
             v.z = 0;
         } else {
-            v.z *= Math.pow(Math.cos((rline / (rpow * 2)) * Math.PI), 1.8);
+            v.z *= Math.pow(Math.cos((dist_sqr / (rpow * 2)) * Math.PI), 1.8);
         }
 
         // make center of island higher
-        if (rline / rpow < 0.5) {
-            v.z += Math.pow(Math.cos((rline / rpow) * Math.PI), 5) * (heightScale * 4);
+        if (dist_sqr / rpow < 0.5) {
+            v.z += Math.pow(Math.cos((dist_sqr / rpow) * Math.PI), 5) * (heightScale * 4);
         }
-        if (rline / rpow < 0.05) {
-            v.z += Math.pow(Math.cos((rline / (rpow / 10)) * Math.PI), 2) * (heightScale * 2);
+        if (dist_sqr / rpow < 0.05) {
+            v.z += Math.pow(Math.cos((dist_sqr / (rpow / 10)) * Math.PI), 2) * (heightScale * 2);
         }
 
         // water level
