@@ -13,6 +13,9 @@ let은 재선언이 불가능함
      let 형섭 = 299 -> 에러 
 */
 var audio = new Audio('background.ogg'); // BGM
+var audio2 = new Audio('getItem.ogg') // get item
+var audio3 = new Audio('getTrap.ogg') // get item
+
 
 var renderer, scene, camera, listener;
 var lookAt = new THREE.Vector3(0.0, 0.0, 0.0);
@@ -21,11 +24,14 @@ var clock = new THREE.Clock();
 var keyboard = new THREEx.KeyboardState();
 
 var plane, environment, ring, nextRing, heightfieldMatrix, light, water;
-var trap,nextTrap // GC add 
+var item,nextItem;
+var trap,nextTrap; // GC add 
 var world, physicsPlane, physicsGround; // cannonjs stuff
 
 var prevRingTime;
 var prevTrapTime;
+var prevItemTime;
+
 var propellerspeed = 0;
 var noisefn = noise.simplex2;
 
@@ -133,6 +139,17 @@ function loadEnvironment(callback) {              // 이것도 컬백이 인자�
     scene.add(nextTrap);
 
 
+    // drawing item
+
+    item = getItem(true);                      // 아이템만듬
+    scene.add(item);
+    prevItemTime = Date.now();
+    item.position.copy(itemDetector.position);
+    nextItem = getItem(false);
+    nextItem.position.set(-10, 410, -110);
+    scene.add(nextItem);
+
+
 	callback();          // 앙 컬백띠 " 콜백 함수란 어떤 이벤트가 발생한 후, 수행될 함수를 의미합니다. "
 }
  
@@ -165,6 +182,7 @@ function draw() {                                // 드로우하는 부분임
     // detecting when plane flies through loop
     ringDetector.addEventListener('collide', function () {
         if (Date.now() - prevRingTime > 100) {
+            audio2.play(); 
             handlePlaneThroughRing();
         }
     });
@@ -172,7 +190,15 @@ function draw() {                                // 드로우하는 부분임
     // detecting when plane flies through trap
     trapDetector.addEventListener('collide', function () {
         if (Date.now() - prevTrapTime > 100) {
+            audio3.play(); 
             handlePlaneThroughTrap();
+        }
+    });
+
+    itemDetector.addEventListener('collide', function () {
+        if (Date.now() - prevItemTime > 100) {
+            audio2.play(); 
+            handlePlaneThroughItem();
         }
     });
 
