@@ -3,32 +3,31 @@ function addEnvironment(noisefn) {
     // and provides a set of properties and methods for manipulating objects in 3D space.
     environment = new THREE.Object3D();
 
-    // lights TODO: calculate terrain lighting only once
     // parameter: color, intensity
     scene.add(new THREE.AmbientLight(0xfefefe, 0.8));
 
     renderer.shadowMap.enabled = true;
     renderer.shadowMapSoft = true;
 
-    // light on
+    // light : directional light from above the plane.
     // parameter: color, intensity
     light = new THREE.DirectionalLight(0xfefefe, 0.7);
     light.position.set(0, 550, 0);  // starting position of the light
     light.position.multiplyScalar(1.3);
-    light.target = plane;  // target position of the light
+    light.target = plane;  // faces the plane
     light.castShadow = config.world.shadows;
 
-    // shadow resolution
-    light.shadow.mapSize.width = config.world.viewDistance * 6;
-    light.shadow.mapSize.height = config.world.viewDistance * 6;
+    // // shadow resolution
+    // light.shadow.mapSize.width = config.world.viewDistance * 6;
+    // light.shadow.mapSize.height = config.world.viewDistance * 6;
 
-    // shadow camera size (how far away form the plane shadows are rendered)
-    const d = config.world.viewDistance / 6;
-    light.shadow.camera.left = -d * 1.5;
-    light.shadow.camera.right = d * 1.5;
-    light.shadow.camera.top = d;
-    light.shadow.camera.bottom = -d * 2;
-    light.shadow.camera.far = config.world.viewDistance + 1000;
+    // // shadow camera size (how far away form the plane shadows are rendered)
+    // const d = config.world.viewDistance / 6;
+    // light.shadow.camera.left = -d * 1.5;
+    // light.shadow.camera.right = d * 1.5;
+    // light.shadow.camera.top = d;
+    // light.shadow.camera.bottom = -d * 2;
+    // light.shadow.camera.far = config.world.viewDistance + 1000;
 
     // shadowcamera visualization
     // scene.add(new THREE.CameraHelper(light.shadow.camera));
@@ -56,7 +55,7 @@ function addEnvironment(noisefn) {
     let treePositions = [];
     var material = new THREE.MeshStandardMaterial({
         roughness: 0.83,
-        vertexColors: THREE.VertexColors,  // color for each vertex
+        vertexColors: THREE.VertexColors  // color for each vertex
     });
 
     // heightfieldMatrix where the heights will be saved for the cannonjs heightfield
@@ -75,7 +74,8 @@ function addEnvironment(noisefn) {
     for(let i=geometry.vertices.length-1; i>=(geometry.vertices.length-1-200); i--){
         console.log("Terrain vertices: " + geometry.vertices[i].x + ", " + geometry.vertices[i].y + ", " + geometry.vertices[i].z);
     }
-    console.log("Terrain vertices length:" + geometry.vertices)
+    // Total 40401 vertices in terrain.
+    console.log("Terrain vertices length:" + geometry.vertices.length);
 
 
     // -1000 <= x <= 1000
@@ -84,10 +84,11 @@ function addEnvironment(noisefn) {
     for (let i = 0; i < geometry.vertices.length; i++) {
 
         let v = geometry.vertices[i];
-        // let x = v.x * 0.42;
-        // let y = v.y * 0.42;
-        let x = v.x * 0.22;
-        let y = v.y * 0.32;
+        // scale down x,y
+        let x = v.x * 0.42;
+        let y = v.y * 0.42;
+        // let x = v.x * 0.22;
+        // let y = v.y * 0.32;
 
         // we add values to z because it is initially zero.
         v.z += noisefn(x * 0.003, y * 0.002) * heightScale + 6;
@@ -101,26 +102,26 @@ function addEnvironment(noisefn) {
             console.log(i+" first added z value:" + v.z);
         }
         
-
+        // get the original x,y again
         let xpow = Math.pow(v.x, 2);
         let ypow = Math.pow(v.y, 2);
-        let rpow = Math.pow(config.world.worldSize / 2, 2); // r^2 where r=l/(2.0)
-        let dist_sqr = xpow + ypow; // x^2 + y^2 
-
-        // v.z = 100;
+        let rpow = Math.pow(config.world.worldSize / 2, 2); // r^2 where r=l/(2.0) (length/2 of the entrie sqaure)
+        let dist_sqr = xpow + ypow; // x^2 + y^2
+        
+        /* Modifyig Z values of vertices, to make it look like a mountain*/ 
 
         // lower area outside of island circle
-        if (dist_sqr  > rpow ) {
+        if (dist_sqr/rpow  > 1 ) {
             v.z = 0;
         } else {
-            v.z *= Math.pow(Math.cos((dist_sqr / (rpow * 2)) * Math.PI), 1.8);
+            v.z *= Math.pow(Math.cos((dist_sqr / (rpow * 2)) * Math.PI), 2);
         }
 
         // make center of island higher
-        if (dist_sqr / rpow < 0.5) {
+        if (dist_sqr / rpow < 0.5) { // less than PI/2
             v.z += Math.pow(Math.cos((dist_sqr / rpow) * Math.PI), 5) * (heightScale * 4);
         }
-        if (dist_sqr / rpow < 0.05) {
+        if (dist_sqr / rpow < 0.05) { // even higher 
             v.z += Math.pow(Math.cos((dist_sqr / (rpow / 10)) * Math.PI), 2) * (heightScale * 2);
         }
 
@@ -152,6 +153,8 @@ function addEnvironment(noisefn) {
 
         // adding positions for trees
         const rand = Math.random();
+        // Approximately 1/2 * 1/10 = 1/20 of entrie terrain vertices are chosen as tree locations
+        // because treeAmount == 0.1
         if (i % 2 === 0 && rand < config.world.treeAmount) {
             treePositions.push(v);
         }
@@ -159,9 +162,10 @@ function addEnvironment(noisefn) {
 
     updateLoading(45, "Coloring vertices by height");
 
-    // coloring vertices by height
+    // coloring faces by height
     for (let i = 0; i < geometry.faces.length; i++) {
         let f = geometry.faces[i];
+        console.log("terrain face:", geometry.faces[i]);
 
         for (let j = 0; j < 3; j++) {
             let vertexId;
@@ -212,8 +216,8 @@ function addEnvironment(noisefn) {
     environment.add(terrain);
 
     // physical representation of the terrain using a cannonjs heightfield
-    // TODO: collision seems to be inaccurate at some angles
     // rotating the heightfieldMatrix is necessary to line it up with the terrain
+    
     heightfieldMatrix = rotateMatrix(heightfieldMatrix);
     var hfShape = new CANNON.Heightfield(heightfieldMatrix, {
         elementSize: config.world.slices * config.world.meshSlices
@@ -234,12 +238,13 @@ function addEnvironment(noisefn) {
     let trees = new THREE.Object3D;
 
     const treegeometry = new THREE.Geometry();
+    // A simple pyramid object
     treegeometry.vertices = [
-        new THREE.Vector3(-0.5, -0.5, -0.5),
-        new THREE.Vector3(-0.5, 0.5, -0.5),
-        new THREE.Vector3(0.5, 0.5, -0.5),
-        new THREE.Vector3(0.5, -0.5, -0.5),
-        new THREE.Vector3(0, 0, 0.5)
+        new THREE.Vector3(-0.5, -0.5, -0.5), //0
+        new THREE.Vector3(-0.5, 0.5, -0.5), // 1
+        new THREE.Vector3(0.5, 0.5, -0.5), // 2
+        new THREE.Vector3(0.5, -0.5, -0.5), // 3
+        new THREE.Vector3(0, 0, 0.5) // 4
     ];
     treegeometry.faces = [
         new THREE.Face3(0, 1, 2),
@@ -249,6 +254,7 @@ function addEnvironment(noisefn) {
         new THREE.Face3(3, 2, 4),
         new THREE.Face3(0, 3, 4)
     ];
+    // Apply scaling
     treegeometry.applyMatrix(new THREE.Matrix4().makeScale(0.3, 0.3, 1));
     treegeometry.verticesNeedUpdate = true;
     treegeometry.computeVertexNormals();
@@ -258,7 +264,7 @@ function addEnvironment(noisefn) {
     treemesh.castShadow = true;
     treemesh.receiveShadow = true;
 
-    // rectangular cube geometry
+    // rectangular cube geometry: a long box
     const trunkgeometry = new THREE.BoxGeometry(0.06, 0.06, 0.6);
     const trunkmaterial = new THREE.MeshStandardMaterial({color: 0xff7a58, roughness: 0.8});
     const trunkmesh = new THREE.Mesh(trunkgeometry, trunkmaterial);
@@ -266,9 +272,11 @@ function addEnvironment(noisefn) {
     trunkmesh.receiveShadow = true;
     trunkmesh.position.set(0, 0, -0.8);
 
+    // Unite treemesh and trunkmesh
     const tree = new THREE.Object3D;
     tree.add(treemesh);
     tree.add(trunkmesh);
+    // scale tree to an adequate size
     tree.scale.set(treeSize, treeSize, treeSize);
 
     for (let i = 0; i < treePositions.length; i++) {
@@ -276,7 +284,7 @@ function addEnvironment(noisefn) {
         const v = treePositions[i];
         const x = v.x + Math.round(Math.random() * 10);
         const y = v.y + Math.round(Math.random() * 10);
-        const z = v.z + 25;
+        const z = v.z + 25; 
         const noise = noisefn(x * 0.005, y * 0.005) + noisefn(x * 0.01, y * 0.01);
         const height = v.z / maxHeight;
 
