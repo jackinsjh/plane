@@ -14,6 +14,7 @@
     android:layout_alignParentStart="true"
     android:layout_alignParentLeft="true"
     android:layout_alignParentBottom="true"
+    android:layout_margin="12dp"
     android:alpha="0.6"
     android:orientation="vertical">
 
@@ -36,12 +37,6 @@
         android:text="turn:L" />
 
       <Button
-        android:id="@+id/button_stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="stop" />
-
-      <Button
         android:id="@+id/button_turn_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,32 +57,20 @@
     android:layout_alignParentEnd="true"
     android:layout_alignParentRight="true"
     android:layout_alignParentBottom="true"
+    android:layout_margin="12dp"
     android:alpha="0.6"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <Button
-      android:id="@+id/button_go"
+      android:id="@+id/button_left"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:text="go" />
+      android:text="left" />
 
-    <LinearLayout
+    <Button
+      android:id="@+id/button_right"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:orientation="horizontal">
-
-      <Button
-        android:id="@+id/button_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="left" />
-
-      <Button
-        android:id="@+id/button_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="right" />
-    </LinearLayout>
+      android:text="right" />
   </LinearLayout>
 </RelativeLayout>
