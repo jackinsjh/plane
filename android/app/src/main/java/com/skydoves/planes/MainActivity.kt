@@ -47,32 +47,45 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun initializeUI() {
-    button_go.setOnClickListener {
-      actionUpAllKeys()
+    button_up.setOnClickListener {
+      actionUpAllTurnKeys()
       webView.dispatchKeyEvent(KeyEvent(ACTION_DOWN, KEYCODE_DPAD_DOWN))
     }
-    button_left.setOnClickListener {
-      actionUpAllKeys()
+    button_turn_left.setOnClickListener {
+      actionUpAllTurnKeys()
       webView.dispatchKeyEvent(KeyEvent(ACTION_DOWN, KEYCODE_DPAD_LEFT))
     }
     button_stop.setOnClickListener {
-      actionUpAllKeys()
+      actionUpAllTurnKeys()
     }
-    button_right.setOnClickListener {
-      actionUpAllKeys()
+    button_turn_right.setOnClickListener {
+      actionUpAllTurnKeys()
       webView.dispatchKeyEvent(KeyEvent(ACTION_DOWN, KEYCODE_DPAD_RIGHT))
     }
     button_back.setOnClickListener {
-      actionUpAllKeys()
+      actionUpAllTurnKeys()
       webView.dispatchKeyEvent(KeyEvent(ACTION_DOWN, KEYCODE_DPAD_UP))
+    }
+    button_left.setOnClickListener {
+      actionUpAllMoveKeys()
+      webView.dispatchKeyEvent(KeyEvent(ACTION_DOWN, KEYCODE_Q))
+    }
+    button_right.setOnClickListener {
+      actionUpAllMoveKeys()
+      webView.dispatchKeyEvent(KeyEvent(ACTION_DOWN, KEYCODE_E))
     }
   }
 
-  private fun actionUpAllKeys() {
+  private fun actionUpAllTurnKeys() {
     webView.dispatchKeyEvent(KeyEvent(ACTION_UP, KEYCODE_DPAD_UP))
     webView.dispatchKeyEvent(KeyEvent(ACTION_UP, KEYCODE_DPAD_LEFT))
     webView.dispatchKeyEvent(KeyEvent(ACTION_UP, KEYCODE_DPAD_RIGHT))
     webView.dispatchKeyEvent(KeyEvent(ACTION_UP, KEYCODE_DPAD_DOWN))
+  }
+
+  private fun actionUpAllMoveKeys() {
+    webView.dispatchKeyEvent(KeyEvent(ACTION_UP, KEYCODE_Q))
+    webView.dispatchKeyEvent(KeyEvent(ACTION_UP, KEYCODE_E))
   }
 
   override fun onDestroy() {
