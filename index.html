@@ -45,29 +45,37 @@
             <div id="myCanvasContainer" style="display:none;">
                 <div class="menu" id="mainMenu">
                     <h1>Plane and Simple</h1>
-                    <p>A simple 3D plane game made as a computer graphics project with Three.js and Cannon.js.</p>
-                    <p>Made by ----------------------------------------.</p>
-                    <p>Controls: w/s - throttle, q/e - yaw, left/right - roll, up/down - pitch, space - reset position</p>
-                    <!--<a href="https://github.com/ndri/plane-and-simple">GitHub page</a>
-                    <a href="https://courses.cs.ut.ee/2018/cg/fall/Main/Project-PlaneGame">Wiki page</a>-->
+                    <p>A 3D plane game for graphic term project </p>
+                    <p>Made by </p>
+                    <p>Controls: w/s - move forward, backward q/e - rotate left, right up/down - face up, down space - reset position</p>
                     <hr>
                     <button onclick="startClicked()">Start Game</button>
-                    <button onclick="settingsClicked()">Settings</button>
+                    <!-- delete this -->
+                    <!-- <button onclick="settingsClicked()">Settings</button> -->
                 </div>
                 <div class="hidden menu" id="pauseMenu">
                     <h1>Plane and Simple</h1>
                     <hr>
-                    <button onclick="resumeClicked()">Resume Game</button>
-                    <button onclick="reloadClicked()">Reload Map</button>
-                    <button onclick="settingsClicked()">Settings</button>
+                    <button onclick="resumeClicked()">Resume</button>
+                    <!-- delete this -->
+                    <!-- <button onclick="reloadClicked()">Reload Map</button> -->
+                    <!-- delete this -->
+                    <!-- <button onclick="settingsClicked()">Settings</button> -->
                     <button onclick="backToMainMenuClicked()">Back to Main Menu</button>
                 </div>
                 <div class="hidden menu" id="loading">
+
+
+                    <!-- this is prob -->
                     <h1>Loading...</h1>
+
                     <div id="loadingBox">
                         <div id="loadedBox"></div>
                     </div>
+
                     <p id="loadingMessage"></p>
+
+
                 </div>
                 <div class="hidden menu" id="settingsMenu">
                     <h1>Settings</h1>

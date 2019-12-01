@@ -1,17 +1,4 @@
-﻿/*
-GGC's note 
-*/
-
-/*
-변수들 선언하는 곳 
-
-let 과 var의 차이는
-
-let은 재선언이 불가능함 
-
-예 ) let 형섭 = 26
-     let 형섭 = 299 -> 에러 
-*/
+﻿
 var audio = new Audio('background.ogg'); // BGM
 var audio2 = new Audio('getItem.ogg') // get item
 var audio3 = new Audio('getTrap.ogg') // get item
@@ -54,12 +41,6 @@ var loaders = [
 var world_time=60;
 
 
-
-
-// 변수 선언 파트 끝 
-
-// 함수 파트 시작
-
 function initialImageClicked() {
     document.getElementById('initialImage').style.display = "none";
     document.getElementById('myCanvasContainer').style.display = "block";
@@ -79,7 +60,7 @@ function loadOneLoader(i) {              // 이거 기본 loadOneLoader(i+1) , �
 }
 
 function loadWorld(callback) {                 // 함수 loadWorld  callback은 되돌아오는 함수죠? 그렇죠 ? 그렇죠?
-	 updateLoading(5, "Setting up Three.js");      // 앙 세팅 완료 띠 
+	//  updateLoading(5, "Setting up Three.js");      // 앙 세팅 완료 띠 
 
     renderer = new THREE.WebGLRenderer({canvas: document.querySelector("canvas")});   // THREE 라이브러리 인스턴스 생성
     renderer.setClearColor(0x35bbff); // background colour 
@@ -96,8 +77,8 @@ function loadWorld(callback) {                 // 함수 loadWorld  callback은 
 	callback(); // 앙 컬백띠 
 }
 
-function loadPlane(callback) {             // 이것또 또또 컬백이 인자로 들어가내유
-	updateLoading(15, "Making plane");      // 비행기 만드는것 없어도 정상작동하는데 왜지? -> ㅠㅠ
+function loadPlane(callback) {             
+	updateLoading(15, "Making plane");  
 
     // plane.js
     addPlane(camera, callback);                 // 비행기를 추가해오 없으면 로딩창에서 멈춰요
@@ -231,30 +212,30 @@ function draw() {                                // 드로우하는 부분임
     requestAnimationFrame(draw);
 }
 
-// https://stackoverflow.com/a/45046955 
-function resizeCanvasToDisplaySize() {                                        // 여기 잘 이해 안가 ㅠㅠ 
+// Resizing window
+function resizeCanvasToDisplaySize() {                    
     const canvas = renderer.domElement;      
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
     if (canvas.width !== width || canvas.height !== height) {
-        // you must pass false here or three.js sadly fights the browser
         renderer.setSize(width, height, false);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();                     
     }
 }
 
+// Math functions
 // Converts degrees to radians
 function toRad(degree) {
-    return Math.PI * 2 * degree / 360;              // 부에에엨 수학 
+    return Math.PI * 2 * degree / 360;     
 }
 
 // Rounds float to 2 decimal places                   
 function round(n) { 
-    return Math.round(n * 100) / 100;                   // 수학 시발
+    return Math.round(n * 100) / 100;                  
 }
 
-// Rotates a matrix (anti-clock)                 // 수학 ㅈ 같은것 
+// Rotates a matrix (anti-clock)                
 function rotateMatrix(matrix) {
     const n = matrix.length;
     let res = [];

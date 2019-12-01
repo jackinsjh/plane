@@ -1,15 +1,8 @@
 
-/*
-
-GCC Note
-
-*/
-
-
 function parseControls() {
 
     if (config.controls.type == controllerType.keyboard) {     // == 1 
-        // Roo the plane left and right
+        // Roll the plane left and right
         if (keyboard.pressed(config.controls.keyboard.aileronLeft)) { // 'left'
             aileronPosition = Math.min(                   
                 aileronPosition + config.plane.aileronSpeed,
@@ -84,25 +77,6 @@ function parseControls() {
         }
 
     } 
-    // else if (config.controls.type == controllerType.gamepad) {       // 게임패드 관련 사항 우리는 알 필요 없다 
-
-
-
-    //     var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
-    //     //console.log(gamepads);
-
-    //     if (!gamepads || !gamepads[0]) {
-    //         alert("No gamepad found! Switching to keyboard mode.");
-    //         config.controls.type = controllerType.keyboard;
-    //     } else {
-    //         let gp = gamepads[0];
-
-    //         throttle = gp.axes[config.controls.gamepad.throttleAxis];
-    //         aileronPosition = -gp.axes[config.controls.gamepad.aileronAxis];
-    //         elevatorPosition = -gp.axes[config.controls.gamepad.elevatorAxis];
-    //         rudderPosition = -gp.axes[config.controls.gamepad.rudderAxis];
-    //     }
-    // }
 
     // 'Space': resets the plane position
     if (keyboard.pressed(config.controls.keyboard.reset)) {
