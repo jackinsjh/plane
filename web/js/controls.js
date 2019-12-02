@@ -2,22 +2,22 @@
 function parseControls() {
 
     if (config.controls.type == controllerType.keyboard) {     // == 1 
-        // Roll the plane left and right
+        // Roll the Kite left and right
         if (keyboard.pressed(config.controls.keyboard.aileronLeft)) { // 'left'
             aileronPosition = Math.min(                   
-                aileronPosition + config.plane.aileronSpeed,
-                config.plane.maxAileronPosition
+                aileronPosition + config.Kite.aileronSpeed,
+                config.Kite.maxAileronPosition
             );
         } else if (keyboard.pressed(config.controls.keyboard.aileronRight)) {   // 'right'
             aileronPosition = Math.max(
-                aileronPosition - config.plane.aileronSpeed,
-                -config.plane.maxAileronPosition
+                aileronPosition - config.Kite.aileronSpeed,
+                -config.Kite.maxAileronPosition
             );
         } else {
-            if (aileronPosition > config.plane.aileronSpeed) {         // max limit rotation
-                aileronPosition -= config.plane.aileronSpeed;
-            } else if (aileronPosition < -config.plane.aileronSpeed) {   // min limit rotation
-                aileronPosition += config.plane.aileronSpeed; 
+            if (aileronPosition > config.Kite.aileronSpeed) {         // max limit rotation
+                aileronPosition -= config.Kite.aileronSpeed;
+            } else if (aileronPosition < -config.Kite.aileronSpeed) {   // min limit rotation
+                aileronPosition += config.Kite.aileronSpeed; 
             } else {
                 aileronPosition = 0;
             }
@@ -26,19 +26,19 @@ function parseControls() {
         // Up and down change the elevator position
         if (keyboard.pressed(config.controls.keyboard.elevatorUp)) {         // looks down
             elevatorPosition = Math.max(                                     
-                elevatorPosition - config.plane.elevatorSpeed, 
-                -config.plane.maxElevatorPosition
+                elevatorPosition - config.Kite.elevatorSpeed, 
+                -config.Kite.maxElevatorPosition
             )
         } else if (keyboard.pressed(config.controls.keyboard.elevatorDown)) {    // look up
             elevatorPosition = Math.min(
-                elevatorPosition + config.plane.elevatorSpeed,
-                config.plane.maxElevatorPosition
+                elevatorPosition + config.Kite.elevatorSpeed,
+                config.Kite.maxElevatorPosition
             )
         } else {
-            if (elevatorPosition > config.plane.elevatorSpeed) {           // max limit
-                elevatorPosition -= config.plane.elevatorSpeed;
-            } else if (elevatorPosition < -config.plane.elevatorSpeed) {      // min limit 
-                elevatorPosition += config.plane.elevatorSpeed;
+            if (elevatorPosition > config.Kite.elevatorSpeed) {           // max limit
+                elevatorPosition -= config.Kite.elevatorSpeed;
+            } else if (elevatorPosition < -config.Kite.elevatorSpeed) {      // min limit 
+                elevatorPosition += config.Kite.elevatorSpeed;
             } else {
                 elevatorPosition = 0;
             }
@@ -46,22 +46,22 @@ function parseControls() {
 
         // Q and E change the rudder position                                   
         if (keyboard.pressed(config.controls.keyboard.rudderLeft)) {
-            //plane.rotateY(toRad(speed * dt));
+            //Kite.rotateY(toRad(speed * dt));
             rudderPosition = Math.min(                                   
-                rudderPosition + config.plane.rudderSpeed,
-                config.plane.maxRudderPosition
+                rudderPosition + config.Kite.rudderSpeed,
+                config.Kite.maxRudderPosition
             )
         } else if (keyboard.pressed(config.controls.keyboard.rudderRight)) {
-            //plane.rotateY(-toRad(speed * dt));
+            //Kite.rotateY(-toRad(speed * dt));
             rudderPosition = Math.max(                                 
-                rudderPosition - config.plane.rudderSpeed,
-                -config.plane.maxRudderPosition
+                rudderPosition - config.Kite.rudderSpeed,
+                -config.Kite.maxRudderPosition
             )
         } else {
-            if (rudderPosition > config.plane.rudderSpeed) {                
-                rudderPosition -= config.plane.rudderSpeed;               
-            } else if (rudderPosition < -config.plane.rudderSpeed) {     
-                rudderPosition += config.plane.rudderSpeed;
+            if (rudderPosition > config.Kite.rudderSpeed) {                
+                rudderPosition -= config.Kite.rudderSpeed;               
+            } else if (rudderPosition < -config.Kite.rudderSpeed) {     
+                rudderPosition += config.Kite.rudderSpeed;
             } else {
                 rudderPosition = 0;
             }
@@ -69,21 +69,21 @@ function parseControls() {
 
         // W and S accelerate and decelerate
         if (keyboard.pressed(config.controls.keyboard.accelerate)) {             // w,s
-            throttle = config.plane.acceleration;                                       
+            throttle = config.Kite.acceleration;                                       
         } else if (keyboard.pressed(config.controls.keyboard.decelerate)) {          
-            throttle = -config.plane.acceleration;
+            throttle = -config.Kite.acceleration;
         } else {
             throttle = 0;
         }
 
     } 
 
-    // 'Space': resets the plane position
+    // 'Space': resets the Kite position
     if (keyboard.pressed(config.controls.keyboard.reset)) {
-        physicsPlane.position.set(config.plane.startPosX, config.plane.startPosY, config.plane.startPosZ);
-        physicsPlane.velocity.copy(new CANNON.Vec3(0, 0, 0));
-        physicsPlane.quaternion.setFromEuler(0, 0, 0);
-        plane.position.set(config.plane.startPosX, config.plane.startPosY, config.plane.startPosZ);
-        //plane.rotation.set(startRotX, startRotY, startRotZ);
+        physicsKite.position.set(config.Kite.startPosX, config.Kite.startPosY, config.Kite.startPosZ);
+        physicsKite.velocity.copy(new CANNON.Vec3(0, 0, 0));
+        physicsKite.quaternion.setFromEuler(0, 0, 0);
+        Kite.position.set(config.Kite.startPosX, config.Kite.startPosY, config.Kite.startPosZ);
+        //Kite.rotation.set(startRotX, startRotY, startRotZ);
     }
 }

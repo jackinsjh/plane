@@ -4,7 +4,7 @@ function getRing(isActive) {
     var torus = new THREE.Mesh(geometry, material);
 
     if (isActive) {
-        // invisbile Cylinder, used to detect when the plane flies through the ring
+        // invisbile Cylinder, used to detect when the Kite flies through the ring
         ringDetector = new CANNON.Body({
             shape: new CANNON.Cylinder(20, 20, 0.1, 5),
             material: new CANNON.Material(),
@@ -21,9 +21,9 @@ function getRing(isActive) {
 }
 
 /**
- * called when plane flies through ring
+ * called when Kite flies through ring
  */
-function handlePlaneThroughRing() {
+function handleKiteThroughRing() {
     score++;
     const worldSize = config.world.worldSize;
     const slices = config.world.slices;
@@ -35,7 +35,7 @@ function handlePlaneThroughRing() {
     ringDetector.position.copy(ring.position);
     ringDetector.quaternion.copy(ring.quaternion);
 
-    // the semi-transparent ring should be relocated somewhere in the FOV of the plane
+    // the semi-transparent ring should be relocated somewhere in the FOV of the Kite
     var nextRingSpacing = new CANNON.Vec3();
     
     nextRingSpacing.x = Math.random() * 90 - 90;
@@ -48,7 +48,7 @@ function handlePlaneThroughRing() {
     var quaternionFactor = (Math.abs(nextRingPosition.x) + Math.abs(nextRingPosition.z)) / worldSize;
     var quat = new CANNON.Quaternion()
     quat.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), quaternionFactor * Math.PI / 2);
-    quat.mult(physicsPlane.quaternion, quat);
+    quat.mult(physicsKite.quaternion, quat);
     
     nextRingSpacing = quat.vmult(nextRingSpacing);
 

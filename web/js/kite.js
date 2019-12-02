@@ -2,11 +2,11 @@ var throttle = 0;
 var score = 0;
 
 
-var aileronPosition = 0; // used to rotate the plane (when rolling, change this to roll the plane left and right)
+var aileronPosition = 0; // used to rotate the Kite (when rolling, change this to roll the Kite left and right)
 var elevatorPosition = 0;
 var rudderPosition = 0;
 
-function addPlane(camera, callback) {
+function addKite(camera, callback) {
 
     var colladaLoader = new THREE.ColladaLoader();
     colladaLoader.crossOrigin = "Anonymous";
@@ -17,21 +17,21 @@ function addPlane(camera, callback) {
     // Need "web-security" configured on the classroom's computer or loading this model won't work.
     colladaLoader.load("https://raw.githubusercontent.com/rpt5366/Myproject/master/kite_17.dae", obj => {
 
-        var colladaPlane = obj.scene;
-        colladaPlane.name = "Plane";
-        colladaPlane.quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI);
+        var colladaKite = obj.scene;
+        colladaKite.name = "Kite";
+        colladaKite.quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI);
 
-        plane = colladaPlane;
-        scene.add(plane);
+        Kite = colladaKite;
+        scene.add(Kite);
         
         // Camera
         camera.position.set(0, 6, 15);
         // camera.position.set(15, 6, -15); // camera for background shot
         // camera.position.set(15, 15, 2); // camera for screen shot
-        camera.lookAt(colladaPlane.position);
-        colladaPlane.add(camera);
+        camera.lookAt(colladaKite.position);
+        colladaKite.add(camera);
 
-        // physical representation of the plane for cannonjs
+        // physical representation of the Kite for cannonjs
         var cannonBody = new CANNON.Body({
             mass: 1000, // kg
             position: new CANNON.Vec3(0, 0, -0.5),
@@ -40,16 +40,16 @@ function addPlane(camera, callback) {
         });
         cannonBody.addShape(new CANNON.Box(new CANNON.Vec3(9.5, 0.25, 1.5)), new CANNON.Vec3(0, -0.2, -1.75));
         cannonBody.addShape(new CANNON.Box(new CANNON.Vec3(3.25, 0.25, 0.9)), new CANNON.Vec3(0, 0.8, 5.75));
-        physicsPlane = cannonBody;
-        physicsPlane.linearDamping = 0.81;
-        physicsPlane.angularDamping = 0.0;
+        physicsKite = cannonBody;
+        physicsKite.linearDamping = 0.81;
+        physicsKite.angularDamping = 0.0;
 
-        // setting the cannonjs plane position
-        // the threejs plane's position will be set equal to this in the draw() function
-        physicsPlane.position.set(config.plane.startPosX, config.plane.startPosY, config.plane.startPosZ);
-        physicsPlane.quaternion.copy(plane.quaternion);
+        // setting the cannonjs Kite position
+        // the threejs Kite's position will be set equal to this in the draw() function
+        physicsKite.position.set(config.Kite.startPosX, config.Kite.startPosY, config.Kite.startPosZ);
+        physicsKite.quaternion.copy(Kite.quaternion);
 
-        world.addBody(physicsPlane);
+        world.addBody(physicsKite);
 
 		callback();
     });
@@ -73,32 +73,32 @@ function activateShading(mesh) {
 }
 
 // dt : delta amount
-function movePlane(dt) {
-    var accelerationImpulse = new CANNON.Vec3(0, 0, -throttle * config.plane.throttlePower * dt);
-    accelerationImpulse = physicsPlane.quaternion.vmult(accelerationImpulse);
+function moveKite(dt) {
+    var accelerationImpulse = new CANNON.Vec3(0, 0, -throttle * config.Kite.throttlePower * dt);
+    accelerationImpulse = physicsKite.quaternion.vmult(accelerationImpulse);
 
-    if (physicsPlane.position.y < 0) {
-        physicsPlane.position.y = 0
+    if (physicsKite.position.y < 0) {
+        physicsKite.position.y = 0
     }
 
-    var planeCenter = new CANNON.Vec3(
-        physicsPlane.position.x,
-        physicsPlane.position.y,
-        physicsPlane.position.z
+    var KiteCenter = new CANNON.Vec3(
+        physicsKite.position.x,
+        physicsKite.position.y,
+        physicsKite.position.z
     );
-    physicsPlane.applyImpulse(accelerationImpulse, planeCenter);
+    physicsKite.applyImpulse(accelerationImpulse, KiteCenter);
 
     var directionVector = new CANNON.Vec3(
-        elevatorPosition * config.plane.elevatorPower * dt,
-        rudderPosition * config.plane.rudderPower * dt,
-        aileronPosition * config.plane.aileronPower * dt
+        elevatorPosition * config.Kite.elevatorPower * dt,
+        rudderPosition * config.Kite.rudderPower * dt,
+        aileronPosition * config.Kite.aileronPower * dt
     );
-    directionVector = physicsPlane.quaternion.vmult(directionVector);
+    directionVector = physicsKite.quaternion.vmult(directionVector);
 
-    physicsPlane.angularVelocity.set(
+    physicsKite.angularVelocity.set(
         directionVector.x, directionVector.y, directionVector.z
     );
 
-    physicsPlane.linearDamping = config.plane.linearDamping;
-    physicsPlane.angularDamping = config.plane.angularDamping;
+    physicsKite.linearDamping = config.Kite.linearDamping;
+    physicsKite.angularDamping = config.Kite.angularDamping;
 }

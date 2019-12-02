@@ -23,8 +23,8 @@ gameStates.paused
 
 let config = {
 
-    // Plane
-    plane: {
+    // Kite
+    Kite: {
         // start position
         startPosX: 0,       
         startPosY: 100,       
@@ -107,7 +107,7 @@ const metaconfig = {
         step: 1   
     },
 
-    plane: {
+    Kite: {
         startPosX: {
             type: "number",
             step: 1  // 1

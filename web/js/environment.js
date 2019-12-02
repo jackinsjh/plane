@@ -9,19 +9,19 @@ function addEnvironment(noisefn) {
     renderer.shadowMap.enabled = true;
     renderer.shadowMapSoft = true;
 
-    // light : directional light from above the plane.
+    // light : directional light from above the Kite.
     // parameter: color, intensity
     light = new THREE.DirectionalLight(0xfefefe, 0.7);
     light.position.set(0, 550, 0);  // starting position of the light
     light.position.multiplyScalar(1.3);
-    light.target = plane;  // faces the plane
+    light.target = Kite;  // faces the Kite
     light.castShadow = config.world.shadows;
 
     // // shadow resolution
     // light.shadow.mapSize.width = config.world.viewDistance * 6;
     // light.shadow.mapSize.height = config.world.viewDistance * 6;
 
-    // // shadow camera size (how far away form the plane shadows are rendered)
+    // // shadow camera size (how far away form the Kite shadows are rendered)
     // const d = config.world.viewDistance / 6;
     // light.shadow.camera.left = -d * 1.5;
     // light.shadow.camera.right = d * 1.5;
@@ -45,7 +45,7 @@ function addEnvironment(noisefn) {
     geometry.computeVertexNormals(); // way of computing vertex normals
     environment.add(water);
 
-    // fog -> like fog, the plane is painted with the desigated color if the plane is far.
+    // fog -> like fog, the Kite is painted with the desigated color if the Kite is far.
     // fog params:              color, near, far
     scene.fog = new THREE.Fog(0x64c0ff, 10, config.world.viewDistance * 0.6);
     renderer.setClearColor(scene.fog.color, 1);
@@ -63,7 +63,7 @@ function addEnvironment(noisefn) {
 
 
     // parameters: width=2000 , height=2000 , widthSegments=200, heightSegments=200
-    // This produces a plane whose vertices are all z=0
+    // This produces a Kite whose vertices are all z=0
     var geometry = new THREE.PlaneGeometry(config.world.worldSize, config.world.worldSize, config.world.worldSize / config.world.meshSlices, config.world.worldSize / config.world.meshSlices);
     const heightScale = config.world.worldSize / 80; // =25 (2000/80)
     let maxHeight = 0;
@@ -322,7 +322,7 @@ function addEnvironment(noisefn) {
 
     updateLoading(85, "Making clouds");
 
-    // clouds TODO: improve, maybe two combined perlin planes
+    // clouds TODO: improve, maybe two combined perlin Kites
     const spacing = 1.5 * config.world.worldSize / (config.world.cloudAmount * 2);
     for (let i = -config.world.cloudAmount; i < config.world.cloudAmount; i++) {
         for (let j = -config.world.cloudAmount; j < config.world.cloudAmount; j++) {
@@ -359,9 +359,9 @@ function addEnvironment(noisefn) {
 }
 
 function moveWaterAndLight() {
-    water.position.x = plane.position.x;
-    water.position.z = plane.position.z;
-    light.position.x = plane.position.x + 0;
-    light.position.z = plane.position.z - 300;
-    light.position.y = plane.position.y + 300;
+    water.position.x = Kite.position.x;
+    water.position.z = Kite.position.z;
+    light.position.x = Kite.position.x + 0;
+    light.position.z = Kite.position.z - 300;
+    light.position.y = Kite.position.y + 300;
 }

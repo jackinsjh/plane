@@ -9,10 +9,10 @@ var lookAt = new THREE.Vector3(0.0, 0.0, 0.0);
 var clock = new THREE.Clock();
 var keyboard = new THREEx.KeyboardState();
 
-var plane, environment, ring, nextRing, heightfieldMatrix, light, water;
+var Kite, environment, ring, nextRing, heightfieldMatrix, light, water;
 var item,nextItem;
 var trap,nextTrap; // GC add 
-var world, physicsPlane, physicsGround; // cannonjs stuff
+var world, physicsKite, physicsGround; // cannonjs stuff
 
 var prevRingTime;
 var prevTrapTime;
@@ -31,7 +31,7 @@ let gameState;
 // Loading order
 var loaders = [
 	loadWorld,
-	loadPlane,
+	loadKite,
 	loadEnvironment,
 	loadDone,
 	draw
@@ -76,11 +76,11 @@ function loadWorld(callback) {                 // 함수 loadWorld  callback은 
 	callback(); // 앙 컬백띠 
 }
 
-function loadPlane(callback) {             
-	updateLoading(15, "Making plane");  
+function loadKite(callback) {             
+	updateLoading(15, "Making Kite");  
 
-    // plane.js
-    addPlane(camera, callback);                 // 비행기를 추가해오 없으면 로딩창에서 멈춰요
+    // Kite.js
+    addKite(camera, callback);                 // 비행기를 추가해오 없으면 로딩창에서 멈춰요
 }
 
 function loadEnvironment(callback) {              // 이것도 컬백이 인자로 들어감 
@@ -147,38 +147,38 @@ function draw() {                                // 드로우하는 부분임
     let dt = clock.getDelta();
     world.step(dt);                          // 이거 없애면 비행기 못움직임 
 
-    // linking the threejs and cannonjs planes
-    plane.position.copy(physicsPlane.position);         
-    //console.log(plane);
-    plane.quaternion.copy(physicsPlane.quaternion);
+    // linking the threejs and cannonjs Kites
+    Kite.position.copy(physicsKite.position);         
+    //console.log(Kite);
+    Kite.quaternion.copy(physicsKite.quaternion);
 
     // controls.js
     parseControls();
 
-    // plane.js
-    movePlane(dt);
-    //movePlane(dt, speed);
+    // Kite.js
+    moveKite(dt);
+    //moveKite(dt, speed);
 
-    // detecting when plane flies through loop
+    // detecting when Kite flies through loop
     ringDetector.addEventListener('collide', function () {
         if (Date.now() - prevRingTime > 100) {
             audio2.play(); 
-            handlePlaneThroughRing();
+            handleKiteThroughRing();
         }
     });
 
-    // detecting when plane flies through trap
+    // detecting when Kite flies through trap
     trapDetector.addEventListener('collide', function () {
         if (Date.now() - prevTrapTime > 100) {
             audio3.play(); 
-            handlePlaneThroughTrap();
+            handleKiteThroughTrap();
         }
     });
 
     itemDetector.addEventListener('collide', function () {
         if (Date.now() - prevItemTime > 100) {
             audio2.play(); 
-            handlePlaneThroughItem();
+            handleKiteThroughItem();
         }
     });
 

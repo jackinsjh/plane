@@ -4,7 +4,7 @@ function getTrap(isActive) {
     var torus = new THREE.Mesh(geometry, material);
 
     if (isActive) {
-        // invisbile Cylinder, used to detect when the plane flies through the Trap
+        // invisbile Cylinder, used to detect when the Kite flies through the Trap
         trapDetector = new CANNON.Body({                       // TrapDetector
             shape: new CANNON.Cylinder(20, 20, 0.1, 5),
             material: new CANNON.Material(),
@@ -21,9 +21,9 @@ function getTrap(isActive) {
 }
 
 /**
- * called when plane flies through Trap
+ * called when Kite flies through Trap
  */
-function handlePlaneThroughTrap() {
+function handleKiteThroughTrap() {
     score--;
     const worldSize = config.world.worldSize;
     const slices = config.world.slices;
@@ -35,7 +35,7 @@ function handlePlaneThroughTrap() {
     trapDetector.position.copy(trap.position);
     trapDetector.quaternion.copy(trap.quaternion);
 
-    // the semi-transparent Trap should be relocated somewhere in the FOV of the plane
+    // the semi-transparent Trap should be relocated somewhere in the FOV of the Kite
     var nextTrapSpacing = new CANNON.Vec3();
     
     nextTrapSpacing.x = Math.random() * 90 - 90;
@@ -48,7 +48,7 @@ function handlePlaneThroughTrap() {
     var quaternionFactor = (Math.abs(nextTrapPosition.x) + Math.abs(nextTrapPosition.z)) / worldSize;
     var quat = new CANNON.Quaternion()
     quat.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), quaternionFactor * Math.PI / 2);
-    quat.mult(physicsPlane.quaternion, quat);
+    quat.mult(physicsKite.quaternion, quat);
     
     nextTrapSpacing = quat.vmult(nextTrapSpacing);
 

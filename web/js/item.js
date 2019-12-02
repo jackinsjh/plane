@@ -4,7 +4,7 @@ function getItem(isActive) {
     var torus = new THREE.Mesh(geometry, material);
 
     if (isActive) {
-        // invisbile Cylinder, used to detect when the plane flies through the Item
+        // invisbile Cylinder, used to detect when the Kite flies through the Item
         itemDetector = new CANNON.Body({
             shape: new CANNON.Cylinder(1, 1, 0.1, 5),
             material: new CANNON.Material(),
@@ -21,9 +21,9 @@ function getItem(isActive) {
 }
 
 /**
- * called when plane flies through Item
+ * called when Kite flies through Item
  */
-function handlePlaneThroughItem() {
+function handleKiteThroughItem() {
     score++;
     score++;
     const worldSize = config.world.worldSize;
@@ -36,7 +36,7 @@ function handlePlaneThroughItem() {
     itemDetector.position.copy(item.position);
     itemDetector.quaternion.copy(item.quaternion);
 
-    // the semi-transparent Item should be relocated somewhere in the FOV of the plane
+    // the semi-transparent Item should be relocated somewhere in the FOV of the Kite
     var nextItemSpacing = new CANNON.Vec3();
     
     nextItemSpacing.x = Math.random() * 90 - 90;
@@ -49,7 +49,7 @@ function handlePlaneThroughItem() {
     var quaternionFactor = (Math.abs(nextItemPosition.x) + Math.abs(nextItemPosition.z)) / worldSize;
     var quat = new CANNON.Quaternion()
     quat.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), quaternionFactor * Math.PI / 2);
-    quat.mult(physicsPlane.quaternion, quat);
+    quat.mult(physicsKite.quaternion, quat);
     
     nextItemSpacing = quat.vmult(nextItemSpacing);
 
