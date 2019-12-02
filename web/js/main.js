@@ -60,7 +60,7 @@ function loadOneLoader(i) {              // 이거 기본 loadOneLoader(i+1) , �
 }
 
 function loadWorld(callback) {                 // 함수 loadWorld  callback은 되돌아오는 함수죠? 그렇죠 ? 그렇죠?
-	//  updateLoading(5, "Setting up Three.js");      // 앙 세팅 완료 띠 
+	 updateLoading(5, "Setting up Three.js");      // 앙 세팅 완료 띠 
 
     renderer = new THREE.WebGLRenderer({canvas: document.querySelector("canvas")});   // THREE 라이브러리 인스턴스 생성
     renderer.setClearColor(0x35bbff); // background colour 
