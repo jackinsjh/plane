@@ -2,7 +2,6 @@
 // Enum class for controller types
 const controllerType = {
     keyboard: 1,
-    // gamepad: 2
 };
 
 
@@ -68,14 +67,6 @@ let config = {
             decelerate: "s",
             reset: "space"
         },
-
-        // // Gamepad control axes       
-        // gamepad: {
-        //     aileronAxis: 0,
-        //     elevatorAxis: 1,
-        //     rudderAxis: 4,
-        //     throttleAxis: 2
-        // }
     },
 
     // World  TODO: doesn't work with some values. fix or value guide
@@ -240,25 +231,6 @@ const metaconfig = {
                 type: "text",
             }
         },
-
-        // gamepad: {
-        //     aileronAxis: {
-        //         type: "number",
-        //         step: 1
-        //     },
-        //     elevatorAxis: {
-        //         type: "number",
-        //         step: 1
-        //     },
-        //     rudderAxis: {
-        //         type: "number",
-        //         step: 1
-        //     },
-        //     throttleAxis: {
-        //         type: "number",
-        //         step: 1
-        //     }
-        // }
     },
 
     world: {
