@@ -1,5 +1,5 @@
 function getItem(isActive) {
-    var geometry = new THREE.TorusGeometry(3, 3, 16, 100);  // torus = 고리 모양 - 고리 모양 3D 모델링 만들기
+    var geometry = new THREE.TorusGeometry(3, 3, 16, 100);  // torus 
     var material = new THREE.MeshBasicMaterial({ color: 0x3A3AFF });
     var torus = new THREE.Mesh(geometry, material);
 
@@ -15,7 +15,7 @@ function getItem(isActive) {
         world.add(itemDetector);
     } else {
         material.transparent = true;
-        material.opacity = 0.3;  // opacity = 불투명도
+        material.opacity = 0.3;  // opacity 
     }
     return torus; 
 }

@@ -1,4 +1,4 @@
-function onLoad() {              // 말 그대로 온로드 함수인 것 메인메뉴임 
+function onLoad() {              
     gameState = gameStates.mainMenu;
 
     document.body.addEventListener("keydown", function(e) {
@@ -17,7 +17,7 @@ function onLoad() {              // 말 그대로 온로드 함수인 것 메인
     });
 }
  
-function startClicked() {                                            // 스타트 게임하면 이 함수 호출 
+function startClicked() {                                          
     const mainMenu = document.getElementById("mainMenu");
     const loading = document.getElementById("loading");
 
@@ -30,7 +30,7 @@ function startClicked() {                                            // 스타�
     showDebugText();
 }
 
-function resumeClicked() {                                       // esc 누르고 재개하기 누르면 호출하는 함수 
+function resumeClicked() {                                      
     const pauseMenu = document.getElementById("pauseMenu");
     pauseMenu.classList.add("hidden");
 
@@ -39,7 +39,7 @@ function resumeClicked() {                                       // esc 누르�
     showDebugText();
 }
 
-function showDebugText() {                      // 디버그 관련 관심없다리 
+function showDebugText() {                     
     const debugText = document.getElementById("debugText");
     debugText.classList.remove("hidden");
 
@@ -52,7 +52,7 @@ function showDebugText() {                      // 디버그 관련 관심없다
     }
 }
 
-function hideDebugText() {                           // 디버그 관련 관심없다리 
+function hideDebugText() {                           
     const debugText = document.getElementById("debugText");
     debugText.classList.add("hidden");
 
@@ -62,7 +62,7 @@ function hideDebugText() {                           // 디버그 관련 관심�
     }
 }
 
-function backToMainMenuClicked() {                                   // 메뉴로 돌아가는 함수 
+function backToMainMenuClicked() {                                   
     const pauseMenu = document.getElementById("pauseMenu");
     const mainMenu = document.getElementById("mainMenu");
     
@@ -82,7 +82,7 @@ function reloadClicked() {
     startClicked();
 }
 
-function settingsClicked() {                                    // 세팅 누르면 호출 함수 
+function settingsClicked() {                                 
     const mainMenu = document.getElementById("mainMenu");
     const pauseMenu = document.getElementById("pauseMenu");
     const settingsMenu = document.getElementById("settingsMenu");
@@ -94,7 +94,7 @@ function settingsClicked() {                                    // 세팅 누르
     loadSettings("config");
 }
 
-function loadSettings(properties) {                                          // 세팅을 로드한다              
+function loadSettings(properties) {                                                  
     const settingsButtons = document.getElementById("settingsButtons");
     const settingsPath = document.getElementById("settingsPath");
     const backButton = document.getElementById("backButton");
@@ -113,7 +113,7 @@ function loadSettings(properties) {                                          // 
         meta = meta[property];
     }
 
-    for (let key of Object.keys(settings)) {              // 뭔소리야 ㅅㅂ ㅜㅜ
+    for (let key of Object.keys(settings)) {              
         if (settings[key].constructor.name === "Object") {
             let button = document.createElement("button");
 
@@ -181,7 +181,7 @@ function loadSettings(properties) {                                          // 
         }
     }
 
-    backButton.onclick = function () {                       // 백 버툰 누르면 일어나는 일 
+    backButton.onclick = function () {                      
         let path = properties.split(".");
         path.pop();
 

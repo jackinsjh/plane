@@ -47,60 +47,60 @@ function initialImageClicked() {
 }
 
  
-function loadGame() {        // 로드 게임 함수 기본 => loadOneLoader(0);  만약 0 대신 딴걸 넣으면 ? 로딩창에서 영원히 진행안됨 흑흑
+function loadGame() {        // loadOneLoader(0);  
 	loadOneLoader(0);
 }
 
 
 
-function loadOneLoader(i) {              // 이거 기본 loadOneLoader(i+1) , 만약 값을 바꾸면 응 터져 
+function loadOneLoader(i) {              //  loadOneLoader(i+1) 
 	loaders[i](function() {
 		loadOneLoader(i+1)
 	});
 }
 
-function loadWorld(callback) {                 // 함수 loadWorld  callback은 되돌아오는 함수죠? 그렇죠 ? 그렇죠?
-	 updateLoading(5, "Setting up Three.js");      // 앙 세팅 완료 띠 
+function loadWorld(callback) {                 // loadWorld  callback
+	 updateLoading(5, "Setting up Three.js");      
 
-    renderer = new THREE.WebGLRenderer({canvas: document.querySelector("canvas")});   // THREE 라이브러리 인스턴스 생성
+    renderer = new THREE.WebGLRenderer({canvas: document.querySelector("canvas")});   // THREE 
     renderer.setClearColor(0x35bbff); // background colour 
-    scene = new THREE.Scene();        // 화면 만듬 
-    camera = new THREE.PerspectiveCamera(100, 1337, 1, config.world.viewDistance);  // 기본값 : 100, 1337, 1, config.world.viewDistance
-                                                                                    // 값을 막 바꾸면 비행기가 화면에 꺼꾸로 달려잇음 띠옹
+    scene = new THREE.Scene();        
+    camera = new THREE.PerspectiveCamera(100, 1337, 1, config.world.viewDistance);  //100, 1337, 1, config.world.viewDistance
+                                                                                    // 
     updateLoading(10, "Setting up Cannon.js");                
 
     // creating the cannonjs world         
-    world = new CANNON.World();                                               // 여기있는 코드 없으면 실행자체가 안되요     
+    world = new CANNON.World();                                                
     world.broadphase = new CANNON.NaiveBroadphase();
     world.gravity.set(0, config.world.gravityConstant, 0);
              
-	callback(); // 앙 컬백띠 
+	callback(); 
 }
 
 function loadPlane(callback) {             
 	updateLoading(15, "Making plane");  
 
     // plane.js
-    addPlane(camera, callback);                 // 비행기를 추가해오 없으면 로딩창에서 멈춰요
+    addPlane(camera, callback);                
 }
 
-function loadEnvironment(callback) {              // 이것도 컬백이 인자로 들어감 
-	 updateLoading(25, "Making environment");          // 아하 이거 로딩창 화면 보여주는거임 
+function loadEnvironment(callback) {           
+	 updateLoading(25, "Making environment");          
 
     // environment.js 
-    if (config.world.randomSeed) {                           // 앙 랜덤 설정띠 
+    if (config.world.randomSeed) {                           
         config.world.seed = Math.random();
     }
-    console.log("Seed: " + config.world.seed);          // 앙 콘솔로 보여주는 거시야
-    noise.seed(config.world.seed);                     // 이거 없으면 로딩에서 멈춤 
+    console.log("Seed: " + config.world.seed);        
+    noise.seed(config.world.seed);                     
     addEnvironment(noisefn);
 
-    updateLoading(95, "Making rings");        // 앙 링 만들었띠 통보 
+    updateLoading(95, "Making rings");        
 
     // ring.js 
 
     
-    ring = getRing(true);                      // 링을 만드는 파트임 
+    ring = getRing(true);                      
     scene.add(ring);
     prevRingTime = Date.now();
     ring.position.copy(ringDetector.position);
@@ -111,7 +111,7 @@ function loadEnvironment(callback) {              // 이것도 컬백이 인자�
 
     // drawing trap
 
-    trap = getTrap(true);                      // 링을 만드는 파트임 
+    trap = getTrap(true);                   
     scene.add(trap);
     prevTrapTime = Date.now();
     trap.position.copy(trapDetector.position);
@@ -122,7 +122,7 @@ function loadEnvironment(callback) {              // 이것도 컬백이 인자�
 
     // drawing item
 
-    item = getItem(true);                      // 아이템만듬
+    item = getItem(true);                    
     scene.add(item);
     prevItemTime = Date.now();
     item.position.copy(itemDetector.position);
@@ -131,22 +131,22 @@ function loadEnvironment(callback) {              // 이것도 컬백이 인자�
     scene.add(nextItem);
 
 
-	callback();          // 앙 컬백띠 " 콜백 함수란 어떤 이벤트가 발생한 후, 수행될 함수를 의미합니다. "
+	callback();          
 }
  
-function loadDone(callback) {                // 앙 로드 돈 띠 
-    updateLoading(100, "Done");                 // 앙 100퍼띠 통보
-    gameState = gameStates.playing;	              // 게임 스테이트 변수를 플레잉으로 바꿔줘요 ㅎ
+function loadDone(callback) {               
+    updateLoading(100, "Done");                
+    gameState = gameStates.playing;	           
 	
 	callback();
 }
 
-function draw() {                                // 드로우하는 부분임 
+function draw() {                                
 
-    audio.play();  // BGM 재생시작
+    audio.play();  
 
     let dt = clock.getDelta();
-    world.step(dt);                          // 이거 없애면 비행기 못움직임 
+    world.step(dt);                          
 
     // linking the threejs and cannonjs planes
     plane.position.copy(physicsPlane.position);         

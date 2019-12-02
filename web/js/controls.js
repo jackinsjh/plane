@@ -44,23 +44,23 @@ function parseControls() {
             }
         }
 
-        // Q and E change the rudder position                                   // 홀리 쉿 rudder은 q와 e키 관련 설정을 조절하는거임 
+        // Q and E change the rudder position                                   
         if (keyboard.pressed(config.controls.keyboard.rudderLeft)) {
             //plane.rotateY(toRad(speed * dt));
-            rudderPosition = Math.min(                                   // 수학을 활용해서 rudder 바꾸는 것이야 건드리지말것
+            rudderPosition = Math.min(                                   
                 rudderPosition + config.plane.rudderSpeed,
                 config.plane.maxRudderPosition
             )
         } else if (keyboard.pressed(config.controls.keyboard.rudderRight)) {
             //plane.rotateY(-toRad(speed * dt));
-            rudderPosition = Math.max(                                  // 수학을 활용해서 rudder 바꾸는 것이야 건드리지말것
+            rudderPosition = Math.max(                                 
                 rudderPosition - config.plane.rudderSpeed,
                 -config.plane.maxRudderPosition
             )
         } else {
-            if (rudderPosition > config.plane.rudderSpeed) {               // q랑 e를 통한 rudder 속도 조절하는 것이야     
-                rudderPosition -= config.plane.rudderSpeed;                // 특정속도 못넘어가게 만듬
-            } else if (rudderPosition < -config.plane.rudderSpeed) {       // 그 전까진 속도 올라 간드아 
+            if (rudderPosition > config.plane.rudderSpeed) {                
+                rudderPosition -= config.plane.rudderSpeed;               
+            } else if (rudderPosition < -config.plane.rudderSpeed) {     
                 rudderPosition += config.plane.rudderSpeed;
             } else {
                 rudderPosition = 0;
@@ -68,7 +68,7 @@ function parseControls() {
         }
 
         // W and S accelerate and decelerate
-        if (keyboard.pressed(config.controls.keyboard.accelerate)) {             // w랑 s를 통한 속도 조절 파트 
+        if (keyboard.pressed(config.controls.keyboard.accelerate)) {             // w,s
             throttle = config.plane.acceleration;                                       
         } else if (keyboard.pressed(config.controls.keyboard.decelerate)) {          
             throttle = -config.plane.acceleration;

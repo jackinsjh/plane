@@ -5,7 +5,7 @@ function getTrap(isActive) {
 
     if (isActive) {
         // invisbile Cylinder, used to detect when the plane flies through the Trap
-        trapDetector = new CANNON.Body({                       // TrapDetector을 바꿔야함 
+        trapDetector = new CANNON.Body({                       // TrapDetector
             shape: new CANNON.Cylinder(20, 20, 0.1, 5),
             material: new CANNON.Material(),
             mass: 0

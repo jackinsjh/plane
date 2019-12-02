@@ -1,7 +1,3 @@
-/*
-GGC 의 노트 필기 
-*/
-
 
 // Enum class for controller types
 const controllerType = {
@@ -17,12 +13,9 @@ const gameStates = {
     paused: 3
 };
 /*
-
-설명하러왓서오
-gameStates.mainMenu는 1을 의미하고
-gameStates.playing는 2을 의미하고
-gameStates.paused는 3을 의미해오 
-
+gameStates.mainMenu
+gameStates.playing
+gameStates.paused
 */
 
 
@@ -38,23 +31,23 @@ let config = {
         startPosY: 100,       
         startPosZ: 800,   
 
-        aileronPower: 100,    //이거 값을 낮추면 양옆 방향 조절이 안됨         
-        elevatorPower: 100,  // 이거 낮추면 고도 조절이 안됨
-        rudderPower: 50,     // 값을 바꿔도 뭐가 변하는지 잘 모르겟음 ㅎㅎ
-        throttlePower: 500000,    // 기본값 : 500000 , 이거 낮추면 비행기 거북이됨 
+        aileronPower: 100,      
+        elevatorPower: 100, 
+        rudderPower: 50,     
+        throttlePower: 500000,    // 500000
 
-        linearDamping: 0.95,   // 기본값 : 0.95 낮추면 비행기의 질량이 사라짐 엄청 촐랑댐 (저항값을 의미하는 것 같음)
-        angularDamping: 0,   // 기본값 : 0 , 이거 올리면 비행기가 시야에서 사라짐 
+        linearDamping: 0.95,   // 0.95 
+        angularDamping: 0,   // 0 
 
         // Keyboard controls
-        acceleration: 0.5, // How much holding down W does to forward-acceleration- 설명 해놓으심
+        acceleration: 0.5, // How much holding down W does to forward-acceleration- 
         maxAileronPosition: 0.8, // Aileron position limit for the keyboard
 
         aileronSpeed: 0.05, // How fast the aileron moves to the limit per tick if the key is held down 
          
-        maxElevatorPosition: 0.8, // 기본값 0.8  이거 높이면 컨트롤할때 존나 어지러움 건드리지 않는게 좋을듯 
-        elevatorSpeed: 0.05, // 고도 속도값
-        maxRudderPosition: 0.8, // rudder(q,e)의 위치관련값 기본값 0.8 값 값을 올리면 q,e로 전환되는거 ㅈㄴ 빨라짐 
+        maxElevatorPosition: 0.8, //  0.8  
+        elevatorSpeed: 0.05, // 
+        maxRudderPosition: 0.8, // rudder(q,e)
         rudderSpeed: 0.05 // rotate the body left and right horizontally.
     },
 
@@ -76,7 +69,7 @@ let config = {
             reset: "space"
         },
 
-        // // Gamepad control axes       - 앙 기모띠 
+        // // Gamepad control axes       
         // gamepad: {
         //     aileronAxis: 0,
         //     elevatorAxis: 1,
@@ -87,22 +80,22 @@ let config = {
 
     // World  TODO: doesn't work with some values. fix or value guide
     world: {
-        worldSize: 2000, // Side length of the square world  맵 크기 
-        meshSlices: 10,                  // 기본값 10 값 올리면 맵이 병신됨
-        slices: 1, // 기본값 1 , 값을 올리면 Coloring vertices by height 부분에서 멈춰버림
+        worldSize: 2000, // Side length of the square world  
+        meshSlices: 10,                  
+        slices: 1, //  Coloring vertices by height 
         viewDistance: 1800,   
         treeAmount: 0.1, // 0=min, 1=max   
         cloudAmount: 7, // (2*cloudAmount)^2 clouds will be created 
-        shadows: false,   // 기본값 : false , 절대 바꾸지 말것 바꾸면 렉 지리게 걸리면서 맵 터짐
-        gravityConstant: -9.82, // 기본값 :-9.82 , 중력값인데 올리면 비행기가 우주로 올라감 
-        randomSeed: true,    // 기본값 : true (랜덤 관련 값)
-        seed: 0.8519260220310276  // 랜덤 관련 값 
+        shadows: false,   //  false 
+        gravityConstant: -9.82, // -9.82 
+        randomSeed: true,    // true 
+        seed: 0.8519260220310276  
     },
 
-    // Debug text        디버그 관련 수치 
+    // Debug text        
     debug: {
         fps: true,
-        time:true, //gc add
+        time:true, 
         score: true,
         aileronPosition: false,
         elevatorPosition: false,
@@ -115,26 +108,26 @@ let config = {
 
 // Information about config variables
 
-// metaconfig라는 상수 설정하는 곳 
+// metaconfig
 
 const metaconfig = {
     test: {
         type: "number",
-        step: 1   // 기본값 1 바꾸면 맵이 사라짐
+        step: 1   
     },
 
     plane: {
         startPosX: {
             type: "number",
-            step: 1  // 기본값 1, 바꿔도 큰 변화는 없음 
+            step: 1  // 1
         },
         startPosY: {
             type: "number",
-            step: 1          // 기본값 1, 바꾸면 위치 이상한대로감  
+            step: 1          // 1
         },
         startPosZ: { 
             type: "number",   
-            step: 1         // 기본값 1 , 이하동문 
+            step: 1         // 1
         },
 
 
@@ -170,7 +163,7 @@ const metaconfig = {
 
         acceleration: {
             type: "number",
-            step: 0.01,        // 기본값 0.01인데 값올려도 큰 변화 못 느끼겟음
+            step: 0.01,        // 0.01
             min: 0.01,
             max: 1.00,
         },

@@ -43,7 +43,6 @@ function addEnvironment(noisefn) {
     water.receiveShadow = true;
     geometry.verticesNeedUpdate = true;  // true if the vertices array has been updated
     geometry.computeVertexNormals(); // way of computing vertex normals
-    // https://gamedev.stackexchange.com/questions/93031/three-js-lighting-not-calculating-correctly-on-three-geometry-objects
     environment.add(water);
 
     // fog -> like fog, the plane is painted with the desigated color if the plane is far.
@@ -198,7 +197,7 @@ function addEnvironment(noisefn) {
                 l = 40 + 60 * ((vertexHeight - 0.3) * 2);
             }
 
-            // (반올림)
+           
             s = Math.round(s);
             l = Math.round(l);
             f.vertexColors[j] = new THREE.Color("hsl(" + h + "," + s + "%," + l + "%)");
