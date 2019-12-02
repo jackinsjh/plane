@@ -78,7 +78,7 @@ function loadWorld(callback) {                 // loadWorld  callback
 }
 
 function loadPlane(callback) {             
-	updateLoading(15, "Making plane");  
+	updateLoading(15, "Making kite");  
 
     // plane.js
     addPlane(camera, callback);                
